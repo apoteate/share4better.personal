@@ -7,14 +7,13 @@ import javax.persistence.Id;
 
 @Entity
 public class Profile {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String userName;
-    private String userEmail;
-    private String userPassword;
-    private boolean donorStatus;
+    public Integer id;
+    public String userName;
+    public String userEmail;
+    public String userPassword;
+    public boolean donorStatus;
 
     public String getUserName() {
         return userName;
