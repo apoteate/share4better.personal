@@ -16,9 +16,6 @@ public class Profile {
     private String userPassword;
     private boolean donorStatus;
 
-    public Profile() {
-    }
-
     public String getUserName() {
         return userName;
     }
