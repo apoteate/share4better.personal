@@ -6,10 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface IUserRepository extends CrudRepository<Profile, String> {
-    @Query(value = "SELECT e FROM user_authentication e WHERE e.user_name = :userName")
+    @Query(value = "select e FROM Users e WHERE e.user_name =(:userName)", nativeQuery = true)
     public Iterable<Profile> userAuthentication(@Param("userName") String userName);
 
-    @Query(value = "SELECT e FROM user_profile e WHERE e.user_name = :userName")
+    @Query(value = "select e FROM UserProfile e WHERE e.user_name = :userName", nativeQuery = true)
     public Iterable<Profile> userProfile(@Param("userName") String userName);
 
 
