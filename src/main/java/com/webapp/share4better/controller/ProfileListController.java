@@ -3,26 +3,43 @@ package com.webapp.share4better.controller;
 import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.sevice.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path = "/profileView")
 public class ProfileListController {
     @Autowired
     private IProfileService service;
 
-    @GetMapping(path = "/validateUser")
-    public @ResponseBody
-    Iterable<Profile> getUserNameAndPassword() {
-        return service.getUserNameAndPassword("admin");
+    @RequestMapping(
+            path="/validateUser",
+            method = RequestMethod.GET,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public ResponseEntity<Iterable<Profile>> getUserNameAndPassword() {
+        try {
+            return new ResponseEntity<>(service.getUserNameAndPassword("admin"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping(path = "/userProfile")
-    public @ResponseBody
-    Iterable<Profile> getUserProfile() {
-        return service.getUserProfile("admin");
+    @RequestMapping(
+            path="/userProfile",
+            method = RequestMethod.GET,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public ResponseEntity<Iterable<Profile>> getUserProfile() {
+        try {
+            return new ResponseEntity<>(service.getUserNameAndPassword("admin"), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
+
 }
