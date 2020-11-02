@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IFoodRepository extends CrudRepository<Food, Integer> {
-    @Query("SELECT e FROM Food e WHERE e.contributorID = :contributorID")
-    public Iterable<Food> listContributedFoodsForUser(@Param("contributorID") Integer contributorID);
+    @Query(value="SELECT * FROM Food e WHERE e.contributorID = ?1", nativeQuery = true)
+    public Iterable<Food> listContributedFoodsForUser(Integer contributorID);
 
-    @Query("SELECT e FROM Food e WHERE e.receiverID = :receiverID")
-    public Iterable<Food> listReceivedFoodsForUser(@Param("receiverID") Integer receiverID);
+    @Query(value="SELECT * FROM Food e WHERE e.receiverID = ?1", nativeQuery = true)
+    public Iterable<Food> listReceivedFoodsForUser(Integer receiverID);
 }

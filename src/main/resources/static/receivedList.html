@@ -11,9 +11,10 @@
     var app = angular.module("app", []);
     app.controller("appController", function($scope,$http) {
         $http({
-            url:'listView/receivedList',
+            url:'receivedList',
             method:'GET',
         }).then(function (response){
+            console.log(response);
             $scope.names = response.data;
         },function (response){
             console.log(response);
