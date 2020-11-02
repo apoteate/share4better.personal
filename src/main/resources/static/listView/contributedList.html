@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf 8">
+    <title>AngularJS</title>
+</head>
+<body ng-app="app" ng-controller="appController">
+<h1 ng-repeat="name in names">{{name}}</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script type="text/javascript">
+    var app = angular.module("app", []);
+    app.controller("appController", function($scope,$http) {
+        $http({
+            url:'listView/contributedList',
+            method:'GET',
+        }).then(function (response){
+            $scope.names = response.data;
+        },function (response){
+            console.log(response);
+        });
+    });
+</script>
+
+</body>
+</html>
