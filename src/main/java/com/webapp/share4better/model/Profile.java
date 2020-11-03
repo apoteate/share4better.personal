@@ -6,10 +6,19 @@ import javax.persistence.*;
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    @Column(name="user_id")
+    public Integer userId;
+
+    @Column(name="user_name")
     public String userName;
+
+    @Column(name="user_email")
     public String userEmail;
+
+    @Column(name="user_password")
     public String userPassword;
+
+    @Column(name="donor_status")
     public boolean donorStatus;
 
     public String getUserName() {
@@ -44,12 +53,12 @@ public class Profile {
         this.donorStatus = donorStatus;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer id) {
+        this.userId = id;
     }
 
 
