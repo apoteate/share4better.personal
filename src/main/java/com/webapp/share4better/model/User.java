@@ -2,7 +2,7 @@ package com.webapp.share4better.model;
 
 public class User {
     private boolean isValidUser;
-    private String userName;
+    private String userEmail;
     private Integer userId;
 
 
@@ -14,12 +14,12 @@ public class User {
         isValidUser = validUser;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public Integer getUserId() {

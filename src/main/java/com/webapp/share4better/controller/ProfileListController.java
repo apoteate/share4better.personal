@@ -22,19 +22,19 @@ public class ProfileListController {
 
     @PostMapping("/validateUser")
     @ResponseBody
-    public ResponseEntity getUserNameAndPassword(@RequestParam("userName") String userName,
+    public ResponseEntity getUserNameAndPassword(@RequestParam("userEmail") String userEmail,
                                                  @RequestParam("password") String password) {
         User user = new User();
         try {
-            Iterable<Profile> profiles = service.getUserNameAndPassword(userName);
+            Iterable<Profile> profiles = service.getUserNameAndPassword(userEmail);
             for (Profile profile : profiles) {
                 if (profile.getUserPassword().equals(password)) {
                     user.setValidUser(true);
-                    user.setUserName(userName);
+                    user.setUserEmail(userEmail);
                     user.setUserId(profile.getUserId());
                     logger.warn( "VALID_USER");
                 } else {
-                    user.setUserName(userName);
+                    user.setUserEmail(userEmail);
                     user.setValidUser(false);
                     logger.warn( "INVALID_USER");
                 }
