@@ -11,12 +11,7 @@ public class ProfileService implements IProfileService {
     private IUserRepository repository;
 
     @Override
-    public Iterable<Profile> getUserNameAndPassword(String userEmail) {
+    public Iterable<Profile> getUserProfile(String userEmail) {
         return repository.userAuthentication(userEmail);
-    }
-
-    @Override
-    public Iterable<Profile> getUserProfile(String userName) {
-        return repository.userProfile(userName);
     }
 }

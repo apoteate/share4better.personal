@@ -1,13 +1,11 @@
 package com.webapp.share4better.controller;
 
 import com.webapp.share4better.model.Profile;
-import com.webapp.share4better.model.User;
 import com.webapp.share4better.sevice.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import org.slf4j.Logger;
@@ -22,42 +20,26 @@ public class ProfileListController {
 
     @PostMapping("/validateUser")
     @ResponseBody
-    public ResponseEntity getUserNameAndPassword(@RequestParam("userEmail") String userEmail,
-                                                 @RequestParam("password") String password) {
-        User user = new User();
+    public ResponseEntity getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
+        Profile userProfile = new Profile();
         try {
-            Iterable<Profile> profiles = service.getUserNameAndPassword(userEmail);
+            Iterable<Profile> profiles = service.getUserProfile(userEmail);
             for (Profile profile : profiles) {
                 if (profile.getUserPassword().equals(password)) {
-                    user.setValidUser(true);
-                    user.setUserEmail(userEmail);
-                    user.setUserId(profile.getUserId());
-                    logger.warn( "VALID_USER");
+                    userProfile = profile;
+                    logger.warn("VALID_USER");
                 } else {
-                    user.setUserEmail(userEmail);
-                    user.setValidUser(false);
-                    logger.warn( "INVALID_USER");
+                    userProfile.setUserEmail(userEmail);
+                    logger.warn("INVALID_USER");
                 }
 
             }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(userProfile, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(
-            path="/userProfile",
-            method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
-            headers = "Accept=application/json"
-    )
-    public ResponseEntity<Iterable<Profile>> getUserProfile() {
-        try {
-            return new ResponseEntity<>(service.getUserNameAndPassword("admin"), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+
 
 }

@@ -9,8 +9,7 @@ public interface IUserRepository extends CrudRepository<Profile, String> {
     @Query(value = "SELECT user_id,user_name,user_password,donor_status,user_email FROM profile WHERE user_email = :userEmail", nativeQuery = true)
     public Iterable<Profile> userAuthentication(@Param("userEmail") String userEmail);
 
-    @Query(value = "select * FROM profile WHERE user_name = :userName", nativeQuery = true)
-    public Iterable<Profile> userProfile(@Param("userName") String userName);
+
 
 
 }
