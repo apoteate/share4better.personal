@@ -2,10 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="utf 8">
-    <title>AngularJS</title>
+    <title>Received Items</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body ng-app="app" ng-controller="appController">
-<h1 ng-repeat="name in names">{{name}}</h1>
+<nav class="navbar navbar-inverse fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Share4Better</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Received History</h2>
+    <ul class="list-group" ng-repeat="item in items">
+        <li class="list-group-item">{{item.contributorID}} <span class="badge">Contributor</span></li>
+        <li class="list-group-item">{{item.name}} <span class="badge">Name</span></li>
+        <li class="list-group-item">{{item.type}} <span class="badge">Type</span></li>
+        <li class="list-group-item">{{item.quantity}} <span class="badge">Quality</span></li>
+        <li class="list-group-item">{{item.quality}} <span class="badge">Quantity</span></li>
+    </ul>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
     var app = angular.module("app", []);
@@ -15,7 +46,7 @@
             method:'GET',
         }).then(function (response){
             console.log(response);
-            $scope.names = response.data;
+            $scope.items = response.data;
         },function (response){
             console.log(response);
         });
