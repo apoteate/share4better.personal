@@ -16,7 +16,7 @@
     <description>ITCS 8112 Project</description>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>11</java.version>
     </properties>
 
     <dependencies>
@@ -66,8 +66,15 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals><goal>copy-dependencies</goal></goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.heroku.sdk</groupId>
@@ -75,7 +82,7 @@
                 <version>3.0.3</version>
                 <configuration>
                     <appName>Share4Better</appName>
-                    <jdkVersion>11</jdkVersion>
+                    <jdkVersion>1.8</jdkVersion>
                     <processTypes>
                         <web>java $JAVA_OPTS -jar target/${project.build.finalName}.jar</web>
                     </processTypes>
