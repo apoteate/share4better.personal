@@ -58,7 +58,7 @@ window.onclick = function(event) {
             <label><b>User Name</b></label>
             <input class="form-control" id="userEmail" name="userEmail" placeholder="User Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address"  required type="text">
             <label><b>Password</b></label>
-            <input class="form-control" id="password" name="password" placeholder="Password" required type="password">
+            <input class="form-control" id="password" name="password" placeholder="Password" required type="password" pattern=".{6,}" title="Six or more characters">
             <div class="clearfix">
                 <button class="cancelbtn" onclick="document.getElementById('id01').style.display='none'" type="button">Cancel</button>
                 <button class="signupbtn" type="submit">Sign In</button>
@@ -85,10 +85,10 @@ window.onclick = function(event) {
             <input name="userEmail" id="userEmail" placeholder="Enter Email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address" required type="text">
 
             <label><b>Password</b></label>
-            <input name="password" id="password1" placeholder="Enter Password" required type="password" oninput="setPasswordConfirmValidity();">
+            <input name="password" id="password1" placeholder="Enter Password" required type="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}" title="Six or more characters">
 
             <label><b>Repeat Password</b></label>
-            <input name="psw-repeat" id="password2" placeholder="Repeat Password" required type="password" oninput="setPasswordConfirmValidity();">
+            <input name="psw-repeat" id="password2" placeholder="Repeat Password" required type="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}" title="Six or more characters">
 
 <!--            <label>-->
 <!--                <input checked="checked" name="remember" style="margin-bottom:15px" type="checkbox"> Remember me-->
