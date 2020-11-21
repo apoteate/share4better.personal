@@ -41,5 +41,28 @@ public class ProfileListController {
     }
 
 
+    @PostMapping("/signUp")
+    @ResponseBody
+    public ResponseEntity signupUser(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
+        Profile userProfile = new Profile();
+        try {
+            Iterable<Profile> profiles = service.getUserProfile(userEmail);
+            for (Profile profile : profiles) {
+                if (profile.getUserPassword().equals(password)) {
+                    userProfile = profile;
+                    logger.warn("VALID_USER");
+                } else {
+                    userProfile.setUserEmail(userEmail);
+                    logger.warn("INVALID_USER");
+                }
+
+            }
+            return new ResponseEntity<>(userProfile, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 
 }
