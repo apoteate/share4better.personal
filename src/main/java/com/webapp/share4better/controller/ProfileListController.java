@@ -47,16 +47,27 @@ public class ProfileListController {
 
 
     @PostMapping("/signUp")
-    @ResponseBody
-    public ResponseEntity signupUser(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
-        Profile userProfile = new Profile();
-        userProfile.setUserName(userName);
-        userProfile.setUserEmail(userEmail);
-        userProfile.setUserPassword(password);
-        userProfile.setDonorStatus(true);
+    public String signupUser(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
 
-        userService.insertWithQuery(userProfile);
-        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+
+        Iterable<Profile> profiles = service.getUserProfile(userEmail);
+        for (Profile profile : profiles) {
+            if (profile.getUserEmail().equals(userEmail)) {
+                return "redirect:/index.html#id04";
+            } else {
+                Profile userProfile = new Profile();
+                userProfile.setUserName(userName);
+                userProfile.setUserEmail(userEmail);
+                userProfile.setUserPassword(password);
+                userProfile.setDonorStatus(true);
+                userService.insertWithQuery(userProfile);
+                httpServletRequest.getSession().setAttribute("userID", profile.getUserId());
+                return "redirect:/home.html";
+            }
+
+        }
+
+        return "redirect:/index.html#id05";
     }
 
     @RequestMapping("/invalidate")
