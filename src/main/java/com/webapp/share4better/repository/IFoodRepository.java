@@ -3,9 +3,6 @@ package com.webapp.share4better.repository;
 import com.webapp.share4better.model.Food;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface IFoodRepository extends CrudRepository<Food, Integer> {
     @Query(value="SELECT * FROM Food e WHERE e.contributorID = ?1", nativeQuery = true)
