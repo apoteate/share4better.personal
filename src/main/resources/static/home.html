@@ -29,7 +29,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">welcome {{user.name}} <span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li><a href="#">welcome {{user}} <span class="glyphicon glyphicon-user"></span> Profile</a></li>
                 <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
@@ -44,11 +44,11 @@
         var app = angular.module("mainApp", []);
     app.controller("appController", function($scope,$http) {
         $http({
-            url:'user',
+            url:'getUserFromSession',
             method:'GET',
         }).then(function (response){
             console.log(response);
-            $scope.user = response.data;f
+            $scope.user = response.data;
         },function (data){
             console.log(response);
         });

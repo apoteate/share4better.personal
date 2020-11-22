@@ -63,27 +63,23 @@ public class ProfileListController {
                 userService.insertWithQuery(userProfile);
                 httpServletRequest.getSession().setAttribute("userID", profile.getUserId());
                 httpServletRequest.getSession().setAttribute("userName", profile.getUserName());
-                return "redirect:/home.html";
             }
-
         }
-
-        return "redirect:/index.html#id05";
+        return "redirect:/home.html";
     }
 
 
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = {"application/xml", "application/json"})
-    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path="/getUserFromSession",method = RequestMethod.GET,produces="text/plain")
     @ResponseBody
-    public Map<String, Object> getUser(HttpServletRequest httpServletRequest)
+    public String getUser(HttpServletRequest httpServletRequest)
     {
 
         String userName = (String) httpServletRequest.getSession().getAttribute("userName");
-        Map<String,Object> user = new HashMap<>();
-        user.put("name", userName);
-
-        return user;
+        if (userName == null || userName.isEmpty()) {
+            return null;
+        }
+        return userName;
     }
     @RequestMapping("/invalidate")
     public String destroySession(HttpServletRequest request) {
