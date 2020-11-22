@@ -24,9 +24,4 @@ public class AddUserService {
 
 
     }
-
-    @Transactional
-    public void insertWithEntityManager(Profile person) {
-        this.entityManager.persist(person);
-    }
 }

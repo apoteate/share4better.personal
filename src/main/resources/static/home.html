@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body ng-app="mainApp" ng-controller="appController">
 <nav class="navbar navbar-inverse fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -29,11 +29,31 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li><a href="#">welcome {{user.name}} <span class="glyphicon glyphicon-user"></span> Profile</a></li>
                 <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script type="text/javascript">
+        var app = angular.module("mainApp", []);
+    app.controller("appController", function($scope,$http) {
+        $http({
+            url:'user',
+            method:'GET',
+        }).then(function (response){
+            console.log(response);
+            $scope.user = response.data;f
+        },function (data){
+            console.log(response);
+        });
+    });
+</script>
+
 </body>
 </html>
