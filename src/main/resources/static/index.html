@@ -36,6 +36,15 @@ window.onclick = function(event) {
         console.log('password2 customError ', document.getElementById('password2').validity.customError);
         console.log('password2 validationMessage ', document.getElementById('password2').validationMessage);
     }
+
+    $(document).ready(function() {
+
+  if(window.location.href.indexOf('#id03') != -1) {
+    $(document.getElementById('id03').style.display='block').modal('show');
+  }
+
+});
+
 </script>
 
 
@@ -52,7 +61,7 @@ window.onclick = function(event) {
 <div class="modal" id="id01">
     <span class="close" onclick="document.getElementById('id01').style.display='none'"
           title="Close Modal">&times;</span>
-    <form action="/validateUser" class="modal-content" id="login" method="POST">
+    <form action="/validateUser" method="post" class="modal-content" id="login">
         <div class="container">
             <h1>Share4Better Login</h1><hr>
             <label><b>User Name</b></label>
@@ -105,5 +114,29 @@ window.onclick = function(event) {
         </div>
     </form>
 </div>
+
+
+<div class="modal" id="id03">
+    <span class="close" onclick="document.getElementById('id03').style.display='none'"
+          title="Close Modal">&times;</span>
+    <form action="/validateUser" method="post" class="modal-content" id="login">
+        <div class="container">
+            <h1>Share4Better Login</h1><hr>
+            <span class="bold-red">Invalid username or password.</span>
+            <span class="bold-red">Please try again.</span>
+            <br>
+            <label><b>User Name</b></label>
+            <input class="form-control" id="userEmail" name="userEmail" placeholder="User Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address"  required type="text">
+            <label><b>Password</b></label>
+            <input class="form-control" id="password" name="password" placeholder="Password" required type="password" pattern=".{6,}" title="Six or more characters">
+            <div class="clearfix">
+                <button class="cancelbtn" onclick="document.getElementById('id03').style.display='none'" type="button">Cancel</button>
+                <button class="signupbtn" type="submit">Sign In</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

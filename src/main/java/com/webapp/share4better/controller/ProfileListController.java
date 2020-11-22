@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ProfileListController {
     private static final Logger logger = LoggerFactory.getLogger(ProfileListController.class);
@@ -23,25 +25,22 @@ public class ProfileListController {
     private AddUserService userService;
 
     @PostMapping("/validateUser")
-    @ResponseBody
-    public ResponseEntity getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
+    public String getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
         Profile userProfile = new Profile();
-        try {
+        String redirect = null;
+        
             Iterable<Profile> profiles = service.getUserProfile(userEmail);
             for (Profile profile : profiles) {
                 if (profile.getUserPassword().equals(password)) {
-                    userProfile = profile;
-                    logger.warn("VALID_USER");
+                    return "redirect:/user.html";
                 } else {
-                    userProfile.setUserEmail(userEmail);
-                    logger.warn("INVALID_USER");
+                    return "redirect:/index.html#id03";
+
                 }
 
             }
-            return new ResponseEntity<>(userProfile, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return "redirect:/index.html#id03";
+
     }
 
 

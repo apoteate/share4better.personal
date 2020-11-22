@@ -113,6 +113,11 @@ body, html {
   margin: 0;
 }
 
+ span.bold-red {
+    color: red;
+    font-weight: bold;
+}
+
 .bgimg {
 
   background-image: url('../image/share4better.jpg');
