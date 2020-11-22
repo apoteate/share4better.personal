@@ -9,6 +9,23 @@
     <script src="bootstrap.min.js"></script>
 </head>
 <script>
+
+    $(document).ready(function() {
+    if(window.location.href.indexOf('#id03') != -1) {
+    $(document.getElementById('id03').style.display='block').modal('show');
+    }
+    if(window.location.href.indexOf('#id04') != -1) {
+        $(document.getElementById('id04').style.display='block').modal('show');
+    }
+    if(window.location.href.indexOf('#id05') != -1) {
+        $(document.getElementById('id05').style.display='block').modal('show');
+    }
+
+  });
+
+
+
+
 var modal = document.getElementById('id01');
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -37,17 +54,8 @@ window.onclick = function(event) {
         console.log('password2 validationMessage ', document.getElementById('password2').validationMessage);
     }
 
-    $(document).ready(function() {
-
-  if(window.location.href.indexOf('#id03') != -1) {
-    $(document.getElementById('id03').style.display='block').modal('show');
-  }
-
-});
 
 </script>
-
-
 
 
 <body>
@@ -61,15 +69,21 @@ window.onclick = function(event) {
 <div class="modal" id="id01">
     <span class="close" onclick="document.getElementById('id01').style.display='none'"
           title="Close Modal">&times;</span>
-    <form action="/validateUser" method="post" class="modal-content" id="login">
+    <form action="/validateUser" class="modal-content" id="login" method="post">
         <div class="container">
-            <h1>Share4Better Login</h1><hr>
+            <h1>Share4Better Login</h1>
+            <hr>
             <label><b>User Name</b></label>
-            <input class="form-control" id="userEmail" name="userEmail" placeholder="User Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address"  required type="text">
+            <input class="form-control" id="userEmail" name="userEmail"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="User Email" required
+                   title="Invalid email address" type="text">
             <label><b>Password</b></label>
-            <input class="form-control" id="password" name="password" placeholder="Password" required type="password" pattern=".{6,}" title="Six or more characters">
+            <input class="form-control" id="password" name="password" pattern=".{6,}" placeholder="Password" required
+                   title="Six or more characters" type="password">
             <div class="clearfix">
-                <button class="cancelbtn" onclick="document.getElementById('id01').style.display='none'" type="button">Cancel</button>
+                <button class="cancelbtn" onclick="document.getElementById('id01').style.display='none'" type="button">
+                    Cancel
+                </button>
                 <button class="signupbtn" type="submit">Sign In</button>
             </div>
 
@@ -81,27 +95,30 @@ window.onclick = function(event) {
 <div class="modal" id="id02">
     <span class="close" onclick="document.getElementById('id02').style.display='none'"
           title="Close Modal">&times;</span>
-    <form action="/signUp" class="modal-content"  method="POST">
+    <form action="/signUp" class="modal-content" method="POST">
         <div class="container">
             <h1>Sign Up</h1>
             <p>Please fill in this form to create an account.</p>
             <hr>
 
             <label><b>Full Name</b></label>
-            <input name="userName" id="userName" placeholder="Full Name" required type="text">
+            <input id="userName" name="userName" placeholder="Full Name" required type="text">
 
             <label><b>Email</b></label>
-            <input name="userEmail" id="userEmail" placeholder="Enter Email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address" required type="text">
+            <input id="userEmail" name="userEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                   placeholder="Enter Email" required title="Invalid email address" type="text">
 
             <label><b>Password</b></label>
-            <input name="password" id="password1" placeholder="Enter Password" required type="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}" title="Six or more characters">
+            <input id="password1" name="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}"
+                   placeholder="Enter Password" required title="Six or more characters" type="password">
 
             <label><b>Repeat Password</b></label>
-            <input name="psw-repeat" id="password2" placeholder="Repeat Password" required type="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}" title="Six or more characters">
+            <input id="password2" name="psw-repeat" oninput="setPasswordConfirmValidity();" pattern=".{6,}"
+                   placeholder="Repeat Password" required title="Six or more characters" type="password">
 
-<!--            <label>-->
-<!--                <input checked="checked" name="remember" style="margin-bottom:15px" type="checkbox"> Remember me-->
-<!--            </label>-->
+            <!--            <label>-->
+            <!--                <input checked="checked" name="remember" style="margin-bottom:15px" type="checkbox"> Remember me-->
+            <!--            </label>-->
 
             <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
@@ -119,24 +136,99 @@ window.onclick = function(event) {
 <div class="modal" id="id03">
     <span class="close" onclick="document.getElementById('id03').style.display='none'"
           title="Close Modal">&times;</span>
-    <form action="/validateUser" method="post" class="modal-content" id="login">
+    <form action="/validateUser" class="modal-content" id="login" method="post">
         <div class="container">
-            <h1>Share4Better Login</h1><hr>
+            <h1>Share4Better Login</h1>
+            <hr>
             <span class="bold-red">Invalid username or password.</span>
             <span class="bold-red">Please try again.</span>
             <br>
             <label><b>User Name</b></label>
-            <input class="form-control" id="userEmail" name="userEmail" placeholder="User Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Invalid email address"  required type="text">
+            <input class="form-control" id="userEmail" name="userEmail"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="User Email" required
+                   title="Invalid email address" type="text">
             <label><b>Password</b></label>
-            <input class="form-control" id="password" name="password" placeholder="Password" required type="password" pattern=".{6,}" title="Six or more characters">
+            <input class="form-control" id="password" name="password" pattern=".{6,}" placeholder="Password" required
+                   title="Six or more characters" type="password">
             <div class="clearfix">
-                <button class="cancelbtn" onclick="document.getElementById('id03').style.display='none'" type="button">Cancel</button>
+                <button class="cancelbtn" onclick="document.getElementById('id03').style.display='none'" type="button">
+                    Cancel
+                </button>
                 <button class="signupbtn" type="submit">Sign In</button>
             </div>
 
         </div>
     </form>
 </div>
+
+<div class="modal" id="id05">
+    <span class="close" onclick="document.getElementById('id05').style.display='none'"
+          title="Close Modal">&times;</span>
+    <form action="/signUp" class="modal-content" method="POST">
+        <div class="container">
+            <h1>Sign Up</h1>
+            <span class="bold-red">There was issue with this sign up. Please try again. </span>
+            <br>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+
+            <label><b>Full Name</b></label>
+            <input id="userName" name="userName" placeholder="Full Name" required type="text">
+
+            <label><b>Email</b></label>
+            <input id="userEmail" name="userEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                   placeholder="Enter Email" required title="Invalid email address" type="text">
+
+            <label><b>Password</b></label>
+            <input id="password1" name="password" oninput="setPasswordConfirmValidity();" pattern=".{6,}"
+                   placeholder="Enter Password" required title="Six or more characters" type="password">
+
+            <label><b>Repeat Password</b></label>
+            <input id="password2" name="psw-repeat" oninput="setPasswordConfirmValidity();" pattern=".{6,}"
+                   placeholder="Repeat Password" required title="Six or more characters" type="password">
+
+            <!--            <label>-->
+            <!--                <input checked="checked" name="remember" style="margin-bottom:15px" type="checkbox"> Remember me-->
+            <!--            </label>-->
+
+            <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+            <div class="clearfix">
+                <button class="cancelbtn" onclick="document.getElementById('id05').style.display='none'" type="button">
+                    Cancel
+                </button>
+                <button class="signupbtn" type="submit">Sign Up</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal" id="id04">
+    <span class="close" onclick="document.getElementById('id04').style.display='none'"
+          title="Close Modal">&times;</span>
+    <form action="/validateUser" class="modal-content" id="login" method="post">
+        <div class="container">
+            <h1>Share4Better Login</h1>
+            <hr>
+            <span class="bold-red">User Already exist. please login using your credentials. </span>
+            <br>
+            <label><b>User Name</b></label>
+            <input class="form-control" id="userEmail" name="userEmail"
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="User Email" required
+                   title="Invalid email address" type="text">
+            <label><b>Password</b></label>
+            <input class="form-control" id="password" name="password" pattern=".{6,}" placeholder="Password" required
+                   title="Six or more characters" type="password">
+            <div class="clearfix">
+                <button class="cancelbtn" onclick="document.getElementById('id04').style.display='none'" type="button">
+                    Cancel
+                </button>
+                <button class="signupbtn" type="submit">Sign In</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 
 </body>
 </html>
