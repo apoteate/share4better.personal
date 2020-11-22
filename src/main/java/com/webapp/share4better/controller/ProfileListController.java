@@ -9,16 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class ProfileListController {
@@ -30,25 +25,18 @@ public class ProfileListController {
     private AddUserService userService;
 
     @PostMapping("/validateUser")
-    public String getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest,Model model) {
+    public String getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
         Profile userProfile = new Profile();
+        String redirect = null;
         
             Iterable<Profile> profiles = service.getUserProfile(userEmail);
             for (Profile profile : profiles) {
                 if (profile.getUserPassword().equals(password)) {
-                    @SuppressWarnings("unchecked")
-                    List<String> messages = (List<String>) httpServletRequest.getSession().getAttribute("USER");
-                    if (messages == null) {
-                        messages = new ArrayList<>();
-                        httpServletRequest.getSession().setAttribute("USER", messages);
-                    }
-                    messages.add(userEmail);
-                    httpServletRequest.getSession().setAttribute("USER", messages);
-                    model.addAttribute("user", messages);
-
-                    return "redirect:/welcome.html";
+                    httpServletRequest.getSession().setAttribute("userID", profile.getUserId());
+                    return "redirect:/home.html";
                 } else {
                     return "redirect:/index.html#id03";
+
                 }
 
             }
@@ -56,41 +44,18 @@ public class ProfileListController {
 
     }
 
-    @GetMapping("/")
-    public String process(Model model, HttpSession session) {
-
-        @SuppressWarnings("unchecked")
-        List<String> messages = (List<String>) session.getAttribute("USER");
-
-        if (messages == null) {
-            messages = new ArrayList<>();
-        }
-
-
-        return "welcome";
-    }
-
 
     @PostMapping("/signUp")
-    public String signupUser(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
+    @ResponseBody
+    public ResponseEntity signupUser(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail, @RequestParam("password") String password) {
+        Profile userProfile = new Profile();
+        userProfile.setUserName(userName);
+        userProfile.setUserEmail(userEmail);
+        userProfile.setUserPassword(password);
+        userProfile.setDonorStatus(true);
 
-
-        Iterable<Profile> profiles = service.getUserProfile(userEmail);
-        for (Profile profile : profiles) {
-            if (profile.getUserEmail().equals(userEmail)) {
-                return "redirect:/index.html#id04";
-            } else {
-                Profile userProfile = new Profile();
-                userProfile.setUserName(userName);
-                userProfile.setUserEmail(userEmail);
-                userProfile.setUserPassword(password);
-                userProfile.setDonorStatus(true);
-                userService.insertWithQuery(userProfile);
-            }
-
-        }
-
-        return "redirect:/index.html#id05";
+        userService.insertWithQuery(userProfile);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
 

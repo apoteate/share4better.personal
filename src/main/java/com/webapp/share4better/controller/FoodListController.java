@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 //@RequestMapping(path="/listView")
 public class FoodListController {
@@ -21,9 +23,10 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllContributedFood() {
+    public ResponseEntity<Iterable<Food>> getAllContributedFood(HttpServletRequest httpServletRequest) {
         try {
-            return new ResponseEntity<Iterable<Food>>(service.getAllContributedFood(0), HttpStatus.OK);
+            int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+            return new ResponseEntity<Iterable<Food>>(service.getAllContributedFood(userID), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
         }
@@ -36,9 +39,10 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllReceivedFood() {
+    public ResponseEntity<Iterable<Food>> getAllReceivedFood(HttpServletRequest httpServletRequest) {
         try {
-            return new ResponseEntity<Iterable<Food>>(service.getAllReceivedFood(1), HttpStatus.OK);
+            int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+            return new ResponseEntity<Iterable<Food>>(service.getAllReceivedFood(userID), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
         }
