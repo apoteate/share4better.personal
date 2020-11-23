@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf 8">
-    <title>Home</title>
+    <title>Address Information</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body ng-app="mainApp" ng-controller="appController">
+<body ng-app="app" ng-controller="appController">
 <nav class="navbar navbar-inverse fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -19,46 +19,32 @@
             <a class="navbar-brand" href="/home.html">Share4Better</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">History <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contributedList.html">Contribution</a></li>
-                        <li><a href="/receivedList.html">Received</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contactUpdate.html">Contact</a></li>
-                        <li><a href="/addressUpdate.html">Address</a></li>
-                    </ul>
-                </li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Welcome, {{user}}</a></li>
+                <li><a href="/home.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                 <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-
-
-
+<div class="container">
+    <h2>ADDRESS INFORMATION</h2>
+    <ul class="list-group" ng-repeat="item in items">
+        <li class="list-group-item">{{item.home_address}} <span class="badge"> Home Address</span></li>
+        <li class="list-group-item">{{item.work_address}} <span class="badge"> Work Address</span></li>
+    </ul>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
-        var app = angular.module("mainApp", []);
+    var app = angular.module("app", []);
     app.controller("appController", function($scope,$http) {
         $http({
-            url:'getUserFromSession',
+            url:'addressUpdate',
             method:'GET',
         }).then(function (response){
             console.log(response);
-            $scope.user = response.data;
-        },function (data){
+            $scope.items = response.data;
+        },function (response){
             console.log(response);
         });
     });
