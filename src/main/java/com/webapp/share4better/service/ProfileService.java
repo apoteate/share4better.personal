@@ -1,4 +1,4 @@
-package com.webapp.share4better.sevice;
+package com.webapp.share4better.service;
 
 import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.repository.IUserRepository;

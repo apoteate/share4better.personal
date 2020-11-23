@@ -61,5 +61,4 @@ public class Profile {
         this.userId = id;
     }
 
-
 }
