@@ -51,21 +51,22 @@ public class ProfileListController {
 
 
         Iterable<Profile> profiles = service.getUserProfile(userEmail);
-        for (Profile profile : profiles) {
-            if (profile.getUserEmail().equals(userEmail)) {
-                return "redirect:/index.html#id04";
-            } else {
+
+
                 Profile userProfile = new Profile();
                 userProfile.setUserName(userName);
                 userProfile.setUserEmail(userEmail);
                 userProfile.setUserPassword(password);
                 userProfile.setDonorStatus(true);
                 userService.insertWithQuery(userProfile);
-                httpServletRequest.getSession().setAttribute("userID", profile.getUserId());
-                httpServletRequest.getSession().setAttribute("userName", profile.getUserName());
-            }
-        }
-        return "redirect:/home.html";
+
+                Iterable<Profile> user = service.getUserProfile(userEmail);
+                httpServletRequest.getSession().setAttribute("userID", user.iterator().next().getUserId());
+                httpServletRequest.getSession().setAttribute("userName", user.iterator().next().getUserName());
+                return "redirect:/home.html";
+
+        //return "redirect:/index.html#id05";
+
     }
 
 
