@@ -2,8 +2,8 @@ package com.webapp.share4better.controller;
 
 
 import com.webapp.share4better.model.Profile;
-import com.webapp.share4better.sevice.AddUserService;
-import com.webapp.share4better.sevice.IProfileService;
+import com.webapp.share4better.service.AddUserService;
+import com.webapp.share4better.service.IProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

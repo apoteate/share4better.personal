@@ -1,7 +1,7 @@
 package com.webapp.share4better.controller;
 
-import com.webapp.share4better.model.Food;
-import com.webapp.share4better.service.IFoodService;
+import com.webapp.share4better.model.Contact;
+import com.webapp.share4better.service.IContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,39 +13,38 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 //@RequestMapping(path="/listView")
-public class FoodListController {
+public class ContactController {
     @Autowired
-    private IFoodService service;
+    private IContactService service;
 
     @RequestMapping(
-            path="/contributedList",
             method = RequestMethod.GET,
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllContributedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Iterable<Contact>> getPhoneNumber(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<Iterable<Food>>(service.getAllContributedFood(userID), HttpStatus.OK);
+            return new ResponseEntity<>(service.getPhoneNumber(userID), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @RequestMapping(
-            path="/receivedList",
             method = RequestMethod.GET,
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllReceivedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Iterable<Contact>> getAdditionalNumber(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<Iterable<Food>>(service.getAllReceivedFood(userID), HttpStatus.OK);
+            return new ResponseEntity<>(service.getAdditionalNumber(userID), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
+
 }
