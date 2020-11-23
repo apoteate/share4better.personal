@@ -10,12 +10,8 @@ public class ContactService implements IContactService {
     @Autowired
     private IContactRepository repository;
 
-    public Iterable<Contact> getPhoneNumber(Integer id) {
-        return repository.listphoneNumber(id);
-    }
-
-    public Iterable<Contact> getAdditionalNumber(Integer id) {
-        return repository.listadditionalNumber(id);
+    public Iterable<Contact> getContactInformation(Integer id) {
+        return repository.getContactInformation(id);
     }
 
 }
