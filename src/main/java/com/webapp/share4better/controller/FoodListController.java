@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-//@RequestMapping(path="/listView")
 public class FoodListController {
     @Autowired
     private IFoodService service;
