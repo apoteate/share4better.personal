@@ -10,8 +10,8 @@ public class ContactService implements IContactService {
     @Autowired
     private IContactRepository repository;
 
+    @Override
     public Iterable<Contact> getContactInformation(Integer id) {
         return repository.getContactInformation(id);
     }
-
 }

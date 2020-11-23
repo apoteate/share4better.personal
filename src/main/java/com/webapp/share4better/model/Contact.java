@@ -1,17 +1,14 @@
 package com.webapp.share4better.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer phoneNumber;
-    private Integer additionalNumber;
+    private String phone_number;
+    private String additional_number;
 
     public Integer getId() {
         return id;
@@ -21,18 +18,19 @@ public class Contact {
         this.id = id;
     }
 
-    public Integer getAdditionalNumber() {
-        return additionalNumber;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setAdditionalNumber(Integer additionalNumber) {
-        this.additionalNumber = additionalNumber;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
-    public Integer getPhoneNumber() {
-        return phoneNumber;
+    public String getAdditional_number() {
+        return additional_number;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) { this.phoneNumber = phoneNumber; }
-
+    public void setAdditional_number(String additional_number) {
+        this.additional_number = additional_number;
+    }
 }

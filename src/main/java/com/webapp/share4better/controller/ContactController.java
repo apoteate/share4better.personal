@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-//@RequestMapping(path="/listView")
 public class ContactController {
     @Autowired
     private IContactService service;
 
     @RequestMapping(
-            path = "/ContactUpdate",
+            path = "/contactUpdate",
             method = RequestMethod.GET,
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
@@ -26,9 +25,9 @@ public class ContactController {
     public ResponseEntity<Iterable<Contact>> getContactInformation(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<>(service.getContactInformation(userID), HttpStatus.OK);
+            return new ResponseEntity<Iterable<Contact>>(service.getContactInformation(userID), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Iterable<Contact>>(HttpStatus.BAD_REQUEST);
         }
 
     }

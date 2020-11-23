@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface IContactRepository extends CrudRepository<Contact, Integer> {
-    @Query(value="SELECT * FROM CONTACT c WHERE c.id = ?1", nativeQuery = true)
+    @Query(value="SELECT * FROM Contact c WHERE c.id = ?1", nativeQuery = true)
     public Iterable<Contact> getContactInformation(Integer id);
 }
