@@ -17,17 +17,42 @@ public class ContactController {
     private IContactService service;
 
     @RequestMapping(
-            path = "/contactUpdate",
+            path = "/getContact",
             method = RequestMethod.GET,
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Contact>> getContactInformation(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Contact> getContactInformation(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<Iterable<Contact>>(service.getContactInformation(userID), HttpStatus.OK);
+            Iterable<Contact> contacts = service.getContactInformation(userID);
+            for (Contact contact: contacts) {
+                if (contact.getPhone_number() != null) {
+                    return new ResponseEntity<>(contact,HttpStatus.OK);
+                }
+            }
+            return  new ResponseEntity<>(new Contact(),HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Contact>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Contact>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PostMapping("/updateContact")
+    public ResponseEntity<Contact> updateContactInformation(@RequestParam("phoneNumber") String phoneNumber, @RequestParam("additionalNumber") String additionalNumber, HttpServletRequest httpServletRequest) {
+        try {
+            int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+            Iterable<Contact> contacts = service.getContactInformation(userID);
+            for (Contact contact: contacts) {
+                if (contact.getId() != null) {
+
+
+
+                }
+            }
+            return new ResponseEntity<>(new Contact(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
