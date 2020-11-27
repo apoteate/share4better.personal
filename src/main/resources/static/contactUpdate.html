@@ -29,17 +29,24 @@
 
 <div class="container">
     <h2>CONTACT INFORMATION</h2>
-    <ul class="list-group" ng-repeat="item in items">
-        <li class="list-group-item">{{item.phone_number}} <span class="badge"> Phone number</span></li>
-        <li class="list-group-item">{{item.additional_number}} <span class="badge"> Additional number</span></li>
+    <form action="/updateContact" method="POST">
+
+    <ul class="list-group">
+
+        <li class="list-group-item"> <input id="phoneNumber" name="phoneNumber" placeholder="Type phone number" type="text" value={{items.phone_number}} ><span class="badge"> Phone number</span></li>
+
+        <li class="list-group-item"> <input id="additionalNumber" name="additionalNumber" placeholder="Type additional number" type="text" value={{items.additional_number}}><span class="badge"> Additional number</span></li>
+
     </ul>
+            <button type="submit">Update Details</button>
+    </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
     var app = angular.module("app", []);
     app.controller("appController", function($scope,$http) {
         $http({
-            url:'contactUpdate',
+            url:'getContact',
             method:'GET',
         }).then(function (response){
             console.log(response);
