@@ -33,9 +33,11 @@
 
     <ul class="list-group">
 
-        <li class="list-group-item"> <input id="phoneNumber" name="phoneNumber" placeholder="Type phone number" type="text" value={{items.phone_number}} ><span class="badge"> Phone number</span></li>
+        <li class="list-group-item"> <input id="phoneNumber" name="phoneNumber" placeholder="Type phone number" type="tel" value={{items.phone_number}} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                            required>  Format: 123-456-7890<span class="badge"> Phone number</span></li>
 
-        <li class="list-group-item"> <input id="additionalNumber" name="additionalNumber" placeholder="Type additional number" type="text" value={{items.additional_number}}><span class="badge"> Additional number</span></li>
+        <li class="list-group-item"> <input id="additionalNumber" name="additionalNumber" placeholder="Type additional number" type="tel" value={{items.additional_number}} pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                            >  Format: 123-456-7890<span class="badge"> Additional number</span></li>
 
     </ul>
             <button type="submit">Update Details</button>

@@ -59,7 +59,7 @@ public class AddressController {
         address.setWork_address(homeAddress);
         address.setId(userID);
         service.updateAddressInfo(address);
-        return "redirect:/contactUpdate.html";
+        return "redirect:/addressUpdate.html";
 
     }
 }
