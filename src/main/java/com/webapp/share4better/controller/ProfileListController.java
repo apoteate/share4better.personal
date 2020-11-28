@@ -1,6 +1,7 @@
 package com.webapp.share4better.controller;
 
 
+import com.webapp.share4better.model.Contact;
 import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.service.IProfileService;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class ProfileListController {
             Optional<Profile> profile = service.getUserProfile(userEmail);
 
             if (profile.isPresent()) {
-                if (profile.get().getUserPassword().equals(password)) {
+                if (profile.get().getUser_password().equals(password)) {
                     httpServletRequest.getSession().setAttribute("userID", profile.get().getUser_id());
                     return "redirect:/home.html";
                 } else {
@@ -52,7 +53,7 @@ public class ProfileListController {
         Profile userProfile = new Profile();
         userProfile.setUser_name(userName);
         userProfile.setUser_email(userEmail);
-        userProfile.setUserPassword(password);
+        userProfile.setUser_password(password);
         userProfile.setDonor_status(true);
         service.addUser(userProfile);
 
@@ -80,6 +81,33 @@ public class ProfileListController {
             return new ResponseEntity<>(profile.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Profile(), HttpStatus.OK);
+    }
+
+
+
+    @RequestMapping(
+            path = "/updateProfile",
+            method = RequestMethod.POST,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public String updateContactInfo(@RequestParam("fullName") String fullName, @RequestParam("userEmail") String userEmail, @RequestParam("userPass") String userPass, HttpServletRequest httpServletRequest) {
+
+        Integer userID = (Integer) httpServletRequest.getSession().getAttribute("userID");
+        if (userID == null) {
+            return "redirect:/index.html#id01";
+        }
+        Profile profileInput = new Profile();
+
+        profileInput.setUser_id(userID);
+        profileInput.setUser_name(fullName);
+        profileInput.setUser_email(userEmail);
+        profileInput.setUser_password(userPass);
+        profileInput.setDonor_status(true);
+        service.addUser(profileInput);
+
+        return "redirect:/personalUpdate.html";
+
     }
 
     @RequestMapping("/invalidate")

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf 8">
-    <title>Home</title>
+    <title>Personal Information</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body ng-app="mainApp" ng-controller="appController">
+<body ng-app="app" ng-controller="appController">
 <nav class="navbar navbar-inverse fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -19,47 +19,44 @@
             <a class="navbar-brand" href="/home.html">Share4Better</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">History <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contributedList.html">Contribution</a></li>
-                        <li><a href="/receivedList.html">Received</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contactUpdate.html">Contact</a></li>
-                        <li><a href="/addressUpdate.html">Address</a></li>
-                        <li><a href="/personalUpdate.html">Personal Info</a></li>
-                    </ul>
-                </li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Welcome, {{user.user_name}}</a></li>
+                <li><a href="/home.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                 <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
+<div class="container">
+    <h2>PERSONAL INFORMATION</h2>
+    <form action="/updateProfile" method="POST">
+    <ul class="list-group">
+        <li class="list-group-item"> <input id="fullName" name="fullName" placeholder="Update Full Name" type="text" value={{items.user_name}}
+                >  <span class="badge"> Full Name</span></li>
+        <li class="list-group-item"> <input id="userEmail" name="userEmail" placeholder="Update Email" type="text" value={{items.user_email}}
+        >  <span class="badge"> Email</span></li>
+        <li class="list-group-item"> <input id="userPass" name="userPass" placeholder="Update Password" type="password" value={{items.user_password}}
+        >  <span class="badge"> Password </span></li>
 
+
+
+    </ul>
+        <button type="submit">Update Details</button>
+    </form>
+</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
-        var app = angular.module("mainApp", []);
+    var app = angular.module("app", []);
     app.controller("appController", function($scope,$http) {
         $http({
             url:'getUserCurrentUser',
             method:'GET',
         }).then(function (response){
             console.log(response);
-            $scope.user = response.data;
-        },function (data){
+            $scope.items = response.data;
+        },function (response){
             console.log(response);
         });
     });

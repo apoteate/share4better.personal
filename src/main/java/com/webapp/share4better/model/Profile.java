@@ -6,14 +6,13 @@ import javax.persistence.*;
 @Table(name = "profile")
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer user_id;
 
     public String user_name;
 
     public String user_email;
 
-    public String userPassword;
+    public String user_password;
 
     public boolean donor_status;
 
@@ -33,12 +32,12 @@ public class Profile {
         this.user_email = user_email;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getUser_password() {
+        return user_password;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setUser_password(String userPassword) {
+        this.user_password = userPassword;
     }
 
     public boolean isDonor_status() {
