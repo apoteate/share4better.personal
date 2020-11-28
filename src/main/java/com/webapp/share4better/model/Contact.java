@@ -3,6 +3,7 @@ package com.webapp.share4better.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "contact")
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
