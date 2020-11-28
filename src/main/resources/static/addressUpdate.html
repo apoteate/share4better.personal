@@ -29,17 +29,20 @@
 
 <div class="container">
     <h2>ADDRESS INFORMATION</h2>
-    <ul class="list-group" ng-repeat="item in items">
-        <li class="list-group-item">{{item.home_address}} <span class="badge"> Home Address</span></li>
-        <li class="list-group-item">{{item.work_address}} <span class="badge"> Work Address</span></li>
-    </ul>
+    <form action="/updateAddressInfo" method="POST">
+        <ul class="list-group">
+            <li class="list-group-item"> <input id="homeAddress" name="homeAddress" placeholder="Type home address" type="text" value={{items.home_address}} ><span class="badge"> Home Address</span></li>
+            <li class="list-group-item"> <input id="workAddress" name="workAddress" placeholder="Type work address" type="text" value={{items.work_address}}><span class="badge"> Work Address</span></li>
+        </ul>
+        <button type="submit">Update Details</button>
+    </form>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
     var app = angular.module("app", []);
     app.controller("appController", function($scope,$http) {
         $http({
-            url:'addressUpdate',
+            url:'getAddressInfo',
             method:'GET',
         }).then(function (response){
             console.log(response);
