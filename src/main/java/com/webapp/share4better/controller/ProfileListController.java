@@ -2,18 +2,18 @@ package com.webapp.share4better.controller;
 
 
 import com.webapp.share4better.model.Profile;
-import com.webapp.share4better.service.AddUserService;
 import com.webapp.share4better.service.IProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class ProfileListController {
@@ -21,25 +21,18 @@ public class ProfileListController {
 
     @Autowired
     private IProfileService service;
-    @Autowired
-    private AddUserService userService;
 
     @PostMapping("/validateUser")
     public String getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
-        Profile userProfile = new Profile();
-        String redirect = null;
-        
-            Iterable<Profile> profiles = service.getUserProfile(userEmail);
-            for (Profile profile : profiles) {
-                if (profile.getUserPassword().equals(password)) {
-                    httpServletRequest.getSession().setAttribute("userID", profile.getUserId());
-                    httpServletRequest.getSession().setAttribute("userName", profile.getUserName());
+            Optional<Profile> profile = service.getUserProfile(userEmail);
+
+            if (profile.isPresent()) {
+                if (profile.get().getUserPassword().equals(password)) {
+                    httpServletRequest.getSession().setAttribute("userID", profile.get().getUser_id());
                     return "redirect:/home.html";
                 } else {
-                    return "redirect:/index.html#id03";
-
-                }
-
+                   return "redirect:/index.html#id03";
+               }
             }
         return "redirect:/index.html#id03";
 
@@ -50,38 +43,45 @@ public class ProfileListController {
     public String signupUser(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
 
 
-        Iterable<Profile> profiles = service.getUserProfile(userEmail);
+        Optional<Profile> profile = service.getUserProfile(userEmail);
 
-
-                Profile userProfile = new Profile();
-                userProfile.setUserName(userName);
-                userProfile.setUserEmail(userEmail);
-                userProfile.setUserPassword(password);
-                userProfile.setDonorStatus(true);
-                userService.insertWithQuery(userProfile);
-
-                Iterable<Profile> user = service.getUserProfile(userEmail);
-                httpServletRequest.getSession().setAttribute("userID", user.iterator().next().getUserId());
-                httpServletRequest.getSession().setAttribute("userName", user.iterator().next().getUserName());
-                return "redirect:/home.html";
-
-        //return "redirect:/index.html#id05";
-
-    }
-
-
-
-    @RequestMapping(path="/getUserFromSession",method = RequestMethod.GET,produces="text/plain")
-    @ResponseBody
-    public String getUser(HttpServletRequest httpServletRequest)
-    {
-
-        String userName = (String) httpServletRequest.getSession().getAttribute("userName");
-        if (userName == null || userName.isEmpty()) {
-            return null;
+        if (profile.isPresent()) {
+            return "redirect:/index.html#id04";
         }
-        return userName;
+
+        Profile userProfile = new Profile();
+        userProfile.setUser_name(userName);
+        userProfile.setUser_email(userEmail);
+        userProfile.setUserPassword(password);
+        userProfile.setDonor_status(true);
+        service.addUser(userProfile);
+
+        Optional<Profile> user = service.getUserProfile(userEmail);
+        if (user.isPresent()) {
+            httpServletRequest.getSession().setAttribute("userID", user.get().getUser_id());
+            return "redirect:/home.html";
+        } else {
+            return "redirect:/index.html#id05";
+        }
+
+
     }
+
+    @RequestMapping(
+            path = "/getUserCurrentUser",
+            method = RequestMethod.GET,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public ResponseEntity<Profile> getUser(HttpServletRequest httpServletRequest) {
+        int userId = (int) httpServletRequest.getSession().getAttribute("userID");
+        Optional<Profile> profile = service.findUserById(userId);
+        if (profile.isPresent()) {
+            return new ResponseEntity<>(profile.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Profile(), HttpStatus.OK);
+    }
+
     @RequestMapping("/invalidate")
     public String destroySession(HttpServletRequest request) {
         request.getSession().invalidate();

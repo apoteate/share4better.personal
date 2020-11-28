@@ -6,7 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface IUserRepository extends CrudRepository<Profile, String> {
+import java.util.Optional;
+
+public interface IUserRepository extends CrudRepository<Profile, Integer> {
     @Query(value = "SELECT user_id,user_name,user_password,donor_status,user_email FROM profile WHERE user_email = :userEmail", nativeQuery = true)
-    public Iterable<Profile> userAuthentication(@Param("userEmail") String userEmail);
+    public Optional<Profile> userAuthentication(@Param("userEmail") String userEmail);
+
+    @Query(value = "SELECT user_id,user_name,user_password,donor_status,user_email FROM profile WHERE user_id = :userId", nativeQuery = true)
+    public Optional<Profile> findUser(@Param("userId") Integer userId);
 }

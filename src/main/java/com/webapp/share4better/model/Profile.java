@@ -3,38 +3,34 @@ package com.webapp.share4better.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    public Integer userId;
+    public Integer user_id;
 
-    @Column(name="user_name")
-    public String userName;
+    public String user_name;
 
-    @Column(name="user_email")
-    public String userEmail;
+    public String user_email;
 
-    @Column(name="user_password")
     public String userPassword;
 
-    @Column(name="donor_status")
-    public boolean donorStatus;
+    public boolean donor_status;
 
-    public String getUserName() {
-        return userName;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
     public String getUserPassword() {
@@ -45,20 +41,20 @@ public class Profile {
         this.userPassword = userPassword;
     }
 
-    public boolean isDonorStatus() {
-        return donorStatus;
+    public boolean isDonor_status() {
+        return donor_status;
     }
 
-    public void setDonorStatus(boolean donorStatus) {
-        this.donorStatus = donorStatus;
+    public void setDonor_status(boolean donor_status) {
+        this.donor_status = donor_status;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Integer id) {
-        this.userId = id;
+    public void setUser_id(Integer id) {
+        this.user_id = id;
     }
 
 }

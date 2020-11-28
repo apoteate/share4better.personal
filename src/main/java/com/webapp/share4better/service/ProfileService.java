@@ -5,13 +5,27 @@ import com.webapp.share4better.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProfileService implements IProfileService {
     @Autowired
     private IUserRepository repository;
 
     @Override
-    public Iterable<Profile> getUserProfile(String userEmail) {
+    public Optional<Profile> getUserProfile(String userEmail) {
         return repository.userAuthentication(userEmail);
     }
+
+    @Override
+    public void addUser(Profile profile) {
+         repository.save(profile);
+    }
+
+    @Override
+    public Optional<Profile> findUserById(Integer id) {
+        return repository.findUser(id);
+    }
+
+
 }
