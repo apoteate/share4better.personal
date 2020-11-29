@@ -22,4 +22,9 @@ public class ContactService implements IContactService {
     public void updateContactInfo(Contact contact) {
         repository.save(contact);
     }
+
+    @Override
+    public void removeContactInfo(Contact contact) {
+        repository.delete(contact);
+    }
 }

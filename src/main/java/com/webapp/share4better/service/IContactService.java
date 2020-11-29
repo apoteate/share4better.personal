@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface IContactService {
     public Optional<Contact> getContactInformation(Integer id);
     public void updateContactInfo(Contact contact);
+    public void removeContactInfo(Contact contact);
     }
