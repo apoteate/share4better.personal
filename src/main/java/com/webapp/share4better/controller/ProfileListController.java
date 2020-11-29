@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
+import java.util.Random;
 
 @Controller
 public class ProfileListController {
@@ -49,8 +50,9 @@ public class ProfileListController {
         if (profile.isPresent()) {
             return "redirect:/index.html#id04";
         }
-
+        Random rand = new Random(System.currentTimeMillis());
         Profile userProfile = new Profile();
+        userProfile.setUser_id((int) rand.nextLong());
         userProfile.setUser_name(userName);
         userProfile.setUser_email(userEmail);
         userProfile.setUser_password(password);

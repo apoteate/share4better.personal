@@ -27,5 +27,9 @@ public class ProfileService implements IProfileService {
         return repository.findUser(id);
     }
 
+    @Override
+    public void removeUser(Integer id) {
+        repository.deleteById(id);
+    }
 
 }
