@@ -21,4 +21,8 @@ public class AddressService implements IAddressService{
     public void updateAddressInfo(Address address) {
          repository.save(address);
     }
+
+    public void removeAddress(Address address) {
+        repository.delete(address);
+    }
 }

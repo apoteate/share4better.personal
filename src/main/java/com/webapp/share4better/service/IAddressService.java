@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface IAddressService {
     public Optional<Address> getAddressInformation(Integer id);
     public void updateAddressInfo(Address address);
+    public void removeAddress(Address address);
 }
