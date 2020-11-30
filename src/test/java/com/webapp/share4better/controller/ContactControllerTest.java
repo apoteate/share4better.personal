@@ -4,9 +4,7 @@ import com.webapp.share4better.model.Contact;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import javax.servlet.http.HttpServletRequest;
-
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNull;
@@ -27,8 +25,8 @@ public class ContactControllerTest {
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(999999991);
         Contact contact = contactController.getContactInformation(mockRequest).getBody();
 
-        assertEquals("", "123-456-7891", contact.getPhone_number());
-        assertEquals("", "987-543-1234", contact.getAdditional_number());
+        assertEquals("Phone Number", "123-456-7891", contact.getPhone_number());
+        assertEquals("Work Number", "987-543-1234", contact.getAdditional_number());
 
     }
 
@@ -49,14 +47,20 @@ public class ContactControllerTest {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(999999992);
 
-        contactController.updateContactInfo("123","456",mockRequest);
+        contactController.updateContactInfo("123", "456", mockRequest);
 
         Contact contact = contactController.getContactInformation(mockRequest).getBody();
-        assertEquals("checking if table is updated with new values","123",contact.getPhone_number());
-        assertEquals("checking if table is updated with new values","456",contact.getAdditional_number());
+        assertEquals("checking if table is updated with new values", "123", contact.getPhone_number());
+        assertEquals("checking if table is updated with new values", "456", contact.getAdditional_number());
 
         //revering back to original values
-        contactController.updateContactInfo("987654321","987654321",mockRequest);
+        contactController.updateContactInfo("987654321", "987654321", mockRequest);
+
+        Contact contact1 = contactController.getContactInformation(mockRequest).getBody();
+
+        assertEquals("Phone Number", "987654321", contact1.getPhone_number());
+        assertEquals("Work Number", "987654321", contact1.getAdditional_number());
+
     }
 
 

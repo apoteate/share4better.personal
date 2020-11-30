@@ -56,7 +56,7 @@ public class AddressController {
         Address address = new Address();
 
         address.setHome_address(homeAddress);
-        address.setWork_address(homeAddress);
+        address.setWork_address(workAddress);
         address.setId(userID);
         service.updateAddressInfo(address);
         return "redirect:/addressUpdate.html";
