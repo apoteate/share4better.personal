@@ -1,17 +1,17 @@
 package com.webapp.share4better.controller;
 
 
-import com.webapp.share4better.model.Contact;
 import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.service.IProfileService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -19,23 +19,22 @@ import java.util.Random;
 
 @Controller
 public class ProfileListController {
-    private static final Logger logger = LoggerFactory.getLogger(ProfileListController.class);
 
     @Autowired
     private IProfileService service;
 
     @PostMapping("/validateUser")
     public String getUserProfile(@RequestParam("userEmail") String userEmail, @RequestParam("password") String password, HttpServletRequest httpServletRequest) {
-            Optional<Profile> profile = service.getUserProfile(userEmail);
+        Optional<Profile> profile = service.getUserProfile(userEmail);
 
-            if (profile.isPresent()) {
-                if (profile.get().getUser_password().equals(password)) {
-                    httpServletRequest.getSession().setAttribute("userID", profile.get().getUser_id());
-                    return "redirect:/home.html";
-                } else {
-                   return "redirect:/index.html#id03";
-               }
+        if (profile.isPresent()) {
+            if (profile.get().getUser_password().equals(password)) {
+                httpServletRequest.getSession().setAttribute("userID", profile.get().getUser_id());
+                return "redirect:/home.html";
+            } else {
+                return "redirect:/index.html#id03";
             }
+        }
         return "redirect:/index.html#id03";
 
     }
@@ -73,7 +72,7 @@ public class ProfileListController {
     @RequestMapping(
             path = "/getUserCurrentUser",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
     public ResponseEntity<Profile> getUser(HttpServletRequest httpServletRequest) {
@@ -86,11 +85,10 @@ public class ProfileListController {
     }
 
 
-
     @RequestMapping(
             path = "/updateProfile",
             method = RequestMethod.POST,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
     public String updateContactInfo(@RequestParam("fullName") String fullName, @RequestParam("userEmail") String userEmail, @RequestParam("userPass") String userPass, HttpServletRequest httpServletRequest) {
@@ -117,7 +115,6 @@ public class ProfileListController {
         request.getSession().invalidate();
         return "redirect:/index.html";
     }
-
 
 
 }
