@@ -2,6 +2,9 @@ package com.webapp.share4better.controller;
 
 import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.service.IProfileService;
+import com.webapp.share4better.service.TestUtil;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +25,26 @@ public class ProfileListControllerTest {
     @Autowired
     private IProfileService service;
 
+    @Autowired
+    private TestUtil testUtil;
+
+    @BeforeEach
+    public void setUpStart() {
+        testUtil.addProfileTestData();
+
+    }
+
+    @AfterEach
+    public void setUpEnd() {
+        testUtil.removeProfileTestData();
+    }
+
     @Test
     public void getUserProfile_Valid() {
 
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
 
-        when(mockRequest.getSession().getAttribute("userID")).thenReturn(1);
-        String isValid = profileListController.getUserProfile("kartikr18@hotmail.com", "123456", mockRequest);
+        String isValid = profileListController.getUserProfile("test@test.com", "123456", mockRequest);
         assertEquals("VALID USER", "redirect:/home.html", isValid);
     }
 
@@ -37,8 +53,8 @@ public class ProfileListControllerTest {
 
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
 
-        when(mockRequest.getSession().getAttribute("userID")).thenReturn(1);
-        String isValid = profileListController.getUserProfile("kartikr18@hotmail.com", "123457", mockRequest);
+        when(mockRequest.getSession().getAttribute("userID")).thenReturn(99999999);
+        String isValid = profileListController.getUserProfile("test@test.com", "123457", mockRequest);
         assertEquals("INVALID PASSWORD", "redirect:/index.html#id03", isValid);
     }
 
@@ -47,7 +63,6 @@ public class ProfileListControllerTest {
 
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
 
-        when(mockRequest.getSession().getAttribute("userID")).thenReturn(1);
         String isValid = profileListController.getUserProfile("1233223", "123457", mockRequest);
         assertEquals("INVALID USER", "redirect:/index.html#id03", isValid);
     }
@@ -56,8 +71,8 @@ public class ProfileListControllerTest {
     public void signupUser_AlreadyExist() {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
 
-        when(mockRequest.getSession().getAttribute("userID")).thenReturn(1);
-        String isValid = profileListController.signupUser("kartik suthar", "kartikr18@hotmail.com", "123456", mockRequest);
+        when(mockRequest.getSession().getAttribute("userID")).thenReturn(99999999);
+        String isValid = profileListController.signupUser("kartik suthar", "test@test.com", "123456", mockRequest);
         assertEquals("USER ALREADY EXIST", "redirect:/index.html#id04", isValid);
     }
 
@@ -76,10 +91,10 @@ public class ProfileListControllerTest {
     @Test
     void getUser() {
         HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
-        when(httpServletRequest.getSession().getAttribute("userID")).thenReturn(1);
+        when(httpServletRequest.getSession().getAttribute("userID")).thenReturn(99999999);
         Profile profile = profileListController.getUser(httpServletRequest).getBody();
-        assertEquals("UserName", "kartik suthar", profile.getUser_name());
-        assertEquals("UserEmail", "kartikr18@hotmail.com", profile.getUser_email());
+        assertEquals("UserName", "FirstName LastName", profile.getUser_name());
+        assertEquals("UserEmail", "test@test.com", profile.getUser_email());
         assertEquals("DonorStatus", true, profile.isDonor_status());
         assertEquals("Password", "123456", profile.getUser_password());
     }
