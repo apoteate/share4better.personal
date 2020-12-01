@@ -34,23 +34,14 @@ public class IContactServiceTest {
     @Test
     public void testGetUpdateAndRemoveContactInformation(){
 
-        Contact contact = new Contact();
-        contact.setId(99999999);
-        contact.setPhone_number("123-456-7891");
-        contact.setAdditional_number("987-543-1234");
-        //Adding test address to the table.
-        service.updateContactInfo(contact);
-
         //getting data from table which was added.
-        Optional<Contact> getContact = service.getContactInformation(99999999);
+        Optional<Contact> getContact = service.getContactInformation(999999991);
         //asserting return data to the actual values.
         assertTrue("Retrieved Contact from contact Table",getContact.isPresent());
-        assertEquals(contact.getPhone_number(),getContact.get().getPhone_number());
-        assertEquals(contact.getAdditional_number(),getContact.get().getAdditional_number());
-        assertEquals(contact.getId(),getContact.get().getId());
+        assertEquals("123-456-7891",getContact.get().getPhone_number());
+        assertEquals("987-543-1234",getContact.get().getAdditional_number());
+        assertEquals(999999991,getContact.get().getId());
 
-        //removing added test data from the table.
-        service.removeContactInfo(contact);
         //getting data from table which was added.
         Optional<Contact> getContact1 = service.getContactInformation(99999999);
         //asserting return data to the actual values.
