@@ -1,6 +1,9 @@
 package com.webapp.share4better.controller;
 
 import com.webapp.share4better.model.Contact;
+import com.webapp.share4better.service.TestUtil;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +19,20 @@ public class ContactControllerTest {
     @Autowired
     private ContactController contactController;
 
+
+    @Autowired
+    private TestUtil testUtil;
+
+    @BeforeEach
+    public void setUpStart() {
+        testUtil.addContactTestData();
+
+    }
+
+    @AfterEach
+    public void setUpEnd(){
+        testUtil.removeContactTestData();
+    }
 
     @Test
     public void getContactInformation() {

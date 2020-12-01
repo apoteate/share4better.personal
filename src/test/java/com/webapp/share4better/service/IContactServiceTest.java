@@ -1,6 +1,8 @@
 package com.webapp.share4better.service;
 
 import com.webapp.share4better.model.Contact;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,20 @@ import static org.springframework.test.util.AssertionErrors.*;
 public class IContactServiceTest {
     @Autowired
     private IContactService service;
+
+    @Autowired
+    private TestUtil testUtil;
+
+    @BeforeEach
+    public void setUpStart() {
+        testUtil.addContactTestData();
+
+    }
+
+    @AfterEach
+    public void setUpEnd(){
+        testUtil.removeContactTestData();
+    }
 
     @Test
     public void testGetUpdateAndRemoveContactInformation(){
