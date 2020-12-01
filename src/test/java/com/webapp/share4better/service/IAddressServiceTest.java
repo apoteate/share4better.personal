@@ -34,25 +34,17 @@ public class IAddressServiceTest {
     @Test
     public void testGetUpdateAndRemoveAddressInformation(){
 
-        Address address = new Address();
-        address.setId(99999999);
-        address.setHome_address("123 Test Drive charlotte NC 28888 USA");
-        address.setWork_address("123 Test work drive Charlotte NC 28888 USA");
-        //Adding test address to the table.
-        service.updateAddressInfo(address);
-
         //getting data from table which was added.
-        Optional<Address> getAddress = service.getAddressInformation(99999999);
+        Optional<Address> getAddress = service.getAddressInformation(999999991);
         //asserting return data to the actual values.
         assertTrue("Retrieved Address from address Table",getAddress.isPresent());
-        assertEquals("Home Address to be matched",address.getHome_address(),getAddress.get().getHome_address());
-        assertEquals("Work Address to be matched",address.getWork_address(),getAddress.get().getWork_address());
-        assertEquals("Address ID to be matched ",address.getId(),getAddress.get().getId());
+        assertEquals("Home Address to be matched","300001 Mill shop Drive charlotte NC 28222",getAddress.get().getHome_address());
+        assertEquals("Work Address to be matched","123 Mill Drive charlotte NC 28111",getAddress.get().getWork_address());
+        assertEquals("Address ID to be matched ",999999991,getAddress.get().getId());
 
-        //removing added test data from the table.
-        service.removeAddress(address);
+
         //getting data from table which was added.
-        Optional<Address> getAddress1 = service.getAddressInformation(99999999);
+        Optional<Address> getAddress1 = service.getAddressInformation(1010101010);
         //asserting return data to the actual values.
         assertFalse("Retrieved Address from address Table",getAddress1.isPresent());
     }
