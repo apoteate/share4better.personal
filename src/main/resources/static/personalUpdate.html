@@ -36,10 +36,8 @@
         <li class="list-group-item"> <input id="userEmail" name="userEmail" placeholder="Update Email" type="text" value={{items.user_email}}
         >  <span class="badge"> Email</span></li>
         <li class="list-group-item"> <input id="userPass" name="userPass" placeholder="Update Password" type="password" value={{items.user_password}}
-        >  <span class="badge"> Password </span></li>
-
-
-
+        >  <span class="badge"> Password </span> <input type="checkbox" onclick="myFunction()">Show Password
+        </li>
     </ul>
         <button type="submit">Update Details</button>
     </form>
@@ -60,6 +58,15 @@
             console.log(response);
         });
     });
+    function myFunction() {
+  var x = document.getElementById("userPass");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
 </script>
 
 </body>
