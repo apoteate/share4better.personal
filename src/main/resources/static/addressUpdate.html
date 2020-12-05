@@ -30,9 +30,21 @@
 <div class="container">
     <h2>ADDRESS INFORMATION</h2>
     <form action="/updateAddressInfo" method="POST">
+        <h4>Home Address</h4>
         <ul class="list-group">
-            <li class="list-group-item"> <input id="homeAddress" name="homeAddress" placeholder="Type home address" type="text" value={{items.home_address}} ><span class="badge"> Home Address</span></li>
-            <li class="list-group-item"> <input id="workAddress" name="workAddress" placeholder="Type work address" type="text" value={{items.work_address}}><span class="badge"> Work Address</span></li>
+            <li class="list-group-item"> <input id="home_address" name="home_address" placeholder="Type Address Line" type="text" value={{items.home_address}} ><span class="badge"> Address Line</span></li>
+            <li class="list-group-item"> <input id="home_city" name="home_city" placeholder="Type City Name" type="text" value={{items.home_city}}><span class="badge"> City</span></li>
+            <li class="list-group-item"> <input id="home_state" name="home_state" placeholder="Type State Name" type="text" value={{items.home_state}}><span class="badge"> State</span></li>
+            <li class="list-group-item"> <input id="home_zip" name="home_zip" placeholder="Type zip code" type="zipCode" value={{items.home_zip}} pattern="[0-9]{5}"><span class="badge"> Zip Code</span></li>
+            <li class="list-group-item"> <input id="home_country" name="home_country" placeholder="Type Country Name" type="text" value={{items.home_country}}><span class="badge"> Country</span></li>
+        </ul>
+        <h4>Work Address</h4>
+        <ul class="list-group">
+            <li class="list-group-item"> <input id="work_address" name="work_address" placeholder="Type Address Line" type="text" value={{items.work_address}} ><span class="badge"> Address Line</span></li>
+            <li class="list-group-item"> <input id="work_city" name="work_city" placeholder="Type City Name" type="text" value={{items.work_city}}><span class="badge"> City</span></li>
+            <li class="list-group-item"> <input id="work_state" name="work_state" placeholder="Type State Name" type="text" value={{items.work_state}}><span class="badge"> State</span></li>
+            <li class="list-group-item"> <input id="work_zip" name="work_zip" placeholder="Type zip code" type="zipCode" value={{items.work_zip}} pattern="[0-9]{5}"><span class="badge"> Zip Code</span></li>
+            <li class="list-group-item"> <input id="work_country" name="work_country" placeholder="Type Country Name" type="text" value={{items.work_country}}><span class="badge"> Country</span></li>
         </ul>
         <button type="submit">Update Details</button>
     </form>

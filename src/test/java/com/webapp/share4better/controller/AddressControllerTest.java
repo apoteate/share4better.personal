@@ -24,7 +24,7 @@ public class AddressControllerTest {
     @BeforeEach
     public void setUpStart() {
         testUtil.addAddressTestData();
-        
+
     }
 
     @AfterEach
@@ -40,8 +40,18 @@ public class AddressControllerTest {
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(999999991);
         Address address = addressController.getAddressInformation(mockRequest).getBody();
 
-        assertEquals("Home Address", "300001 Mill shop Drive charlotte NC 28222", address.getHome_address());
-        assertEquals("Work Address", "123 Mill Drive charlotte NC 28111", address.getWork_address());
+        assertEquals("Home Address : " + address.toString(), "300001 Mill shop Drive", address.getHome_address());
+        assertEquals("Home Address : " + address.toString(), "charlotte", address.getHome_city());
+        assertEquals("Home Address : " + address.toString(), "NC", address.getHome_state());
+        assertEquals("Home Address : " + address.toString(), 28222, address.getHome_zip());
+        assertEquals("Home Address : " + address.toString(), "USA", address.getHome_country());
+
+        assertEquals("Work Address : " + address.toString(), "123 Mill Drive", address.getWork_address());
+        assertEquals("Work Address : " + address.toString(), "charlotte", address.getWork_city());
+        assertEquals("Work Address : " + address.toString(), "NC", address.getWork_state());
+        assertEquals("Work Address : " + address.toString(), 28111, address.getWork_zip());
+        assertEquals("Work Address : " + address.toString(), "USA", address.getWork_country());
+
 
     }
 
@@ -63,18 +73,21 @@ public class AddressControllerTest {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(999999992);
 
-        addressController.updateAddressInfo("123", "456", mockRequest);
+        addressController.updateAddressInfo("300001 Mill shop Drive","charlotte", "NC", 28222,"USA","123 Mill Drive","charlotte", "NC", 28111,"USA", mockRequest);
 
         Address address = addressController.getAddressInformation(mockRequest).getBody();
-        assertEquals("Home Address", "123", address.getHome_address());
-        assertEquals("Work Address", "456", address.getWork_address());
+        assertEquals("Home Address : " + address.toString(), "300001 Mill shop Drive", address.getHome_address());
+        assertEquals("Home Address : " + address.toString(), "charlotte", address.getHome_city());
+        assertEquals("Home Address : " + address.toString(), "NC", address.getHome_state());
+        assertEquals("Home Address : " + address.toString(), 28222, address.getHome_zip());
+        assertEquals("Home Address : " + address.toString(), "USA", address.getHome_country());
 
-        //revering back to original values
-        addressController.updateAddressInfo("300001 Mill shop Drive charlotte NC 28222", "123 Mill Drive charlotte NC 28111", mockRequest);
+        assertEquals("Work Address : " + address.toString(), "123 Mill Drive", address.getWork_address());
+        assertEquals("Work Address : " + address.toString(), "charlotte", address.getWork_city());
+        assertEquals("Work Address : " + address.toString(), "NC", address.getWork_state());
+        assertEquals("Work Address : " + address.toString(), 28111, address.getWork_zip());
+        assertEquals("Work Address : " + address.toString(), "USA", address.getWork_country());
 
-        Address address1 = addressController.getAddressInformation(mockRequest).getBody();
-        assertEquals("Home Address", "300001 Mill shop Drive charlotte NC 28222", address1.getHome_address());
-        assertEquals("Work Address", "123 Mill Drive charlotte NC 28111", address1.getWork_address());
 
     }
 

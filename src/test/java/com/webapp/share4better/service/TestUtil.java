@@ -20,8 +20,8 @@ public class TestUtil {
     private Contact contact_1 = createContact(999999991,"123-456-7891","987-543-1234");
     private Contact contact_2 = createContact(999999992,"987654321","987654321");
 
-    private Address address_1 = createAddress(999999991,"300001 Mill shop Drive charlotte NC 28222","123 Mill Drive charlotte NC 28111");
-    private Address address_2 = createAddress(999999992,"300001 Mill shop Drive charlotte NC 28222","123 Mill Drive charlotte NC 28111");
+    private Address address_1 = createAddress(999999991,"300001 Mill shop Drive","charlotte", "NC", 28222,"USA","123 Mill Drive","charlotte", "NC", 28111,"USA");
+    private Address address_2 = createAddress(999999992,"300001 Mill shop Drive","charlotte", "NC", 28222,"USA","123 Mill Drive","charlotte", "NC", 28111,"USA");
 
     private Profile profile_1 = createProfile(99999999,"FirstName LastName","test@test.com","123456");
 
@@ -56,11 +56,20 @@ public class TestUtil {
         profileService.removeUser(99999999);
     }
 
-    public Address createAddress(int id, String home, String work){
+    public Address createAddress(int id, String home_address, String home_city, String home_state, int home_zip, String home_country, String work_address, String work_city, String work_state, int work_zip, String work_country){
         Address address = new Address();
         address.setId(id);
-        address.setHome_address(home);
-        address.setWork_address(work);
+        address.setHome_address(home_address);
+        address.setHome_city(home_city);
+        address.setHome_state(home_state);
+        address.setHome_zip(home_zip);
+        address.setHome_country(home_country);
+
+        address.setWork_address(work_address);
+        address.setWork_city(work_city);
+        address.setWork_state(work_state);
+        address.setWork_zip(work_zip);
+        address.setWork_country(work_country);
         return address;
     }
 

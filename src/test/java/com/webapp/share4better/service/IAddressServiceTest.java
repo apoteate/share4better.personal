@@ -38,8 +38,18 @@ public class IAddressServiceTest {
         Optional<Address> getAddress = service.getAddressInformation(999999991);
         //asserting return data to the actual values.
         assertTrue("Retrieved Address from address Table",getAddress.isPresent());
-        assertEquals("Home Address to be matched","300001 Mill shop Drive charlotte NC 28222",getAddress.get().getHome_address());
-        assertEquals("Work Address to be matched","123 Mill Drive charlotte NC 28111",getAddress.get().getWork_address());
+
+        assertEquals("Home Address : " + getAddress.get().toString(), "300001 Mill shop Drive", getAddress.get().getHome_address());
+        assertEquals("Home Address : " + getAddress.get().toString(), "charlotte", getAddress.get().getHome_city());
+        assertEquals("Home Address : " + getAddress.get().toString(), "NC", getAddress.get().getHome_state());
+        assertEquals("Home Address : " + getAddress.get().toString(), 28222, getAddress.get().getHome_zip());
+        assertEquals("Home Address : " + getAddress.get().toString(), "USA", getAddress.get().getHome_country());
+
+        assertEquals("Work Address : " + getAddress.get().toString(), "123 Mill Drive", getAddress.get().getWork_address());
+        assertEquals("Work Address : " + getAddress.get().toString(), "charlotte", getAddress.get().getWork_city());
+        assertEquals("Work Address : " + getAddress.get().toString(), "NC", getAddress.get().getWork_state());
+        assertEquals("Work Address : " + getAddress.get().toString(), 28111, getAddress.get().getWork_zip());
+        assertEquals("Work Address : " + getAddress.get().toString(), "USA", getAddress.get().getWork_country());
         assertEquals("Address ID to be matched ",999999991,getAddress.get().getId());
 
 
