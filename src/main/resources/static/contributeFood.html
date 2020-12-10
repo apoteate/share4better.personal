@@ -29,29 +29,39 @@
 
 <div class="container">
     <h2>Contribution History</h2>
+    <form action="/contribute" method="POST">
     <ul class="list-group" ng-repeat="item in items">
-        <li class="list-group-item"> * {{item.receiverID}} * <span class="badge">Receiver</span></li>
-        <li class="list-group-item">{{item.name}} <span class="badge">Name</span></li>
-        <li class="list-group-item">{{item.type}} <span class="badge">Type</span></li>
-        <li class="list-group-item">{{item.quantity}} <span class="badge">Quality</span></li>
-        <li class="list-group-item">{{item.quality}} <span class="badge">Quantity</span></li>
+        <li class="list-group-item"> <input id="foodName" name="foodName" placeholder="Name of the food name" type="text"
+        >  <span class="badge"> Name</span></li>
+        <li class="list-group-item"> <input id="foodType" name="foodType" placeholder="Type of the food" type="text"
+        >  <span class="badge"> Type</span></li>
+        <li class="list-group-item"> <input id="foodQuality" name="foodQuality" placeholder="Quality of the food" type="text"
+        >  <span class="badge"> Quality</span></li>
+        <li class="list-group-item"> <input id="foodQuantity" name="foodQuantity" placeholder="Quantity of the food" type="text"
+        >  <span class="badge"> Quantity</span></li>
     </ul>
+    <button type="submit">Update Details</button>
+    </form>
 </div>
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
-    var app = angular.module("app", []);
-    app.controller("appController", function($scope,$http) {
-        $http({
-            url:'contributedList',
-            method:'GET',
-        }).then(function (response){
-            console.log(response);
-            $scope.items = response.data;
-        },function (response){
-            console.log(response);
-        });
-    });
+   function GetURLParameter(sParam)
+{
+var sPageURL = window.location.search.substring(1);
+var sURLVariables = sPageURL.split('&');
+for (var i = 0; i < sURLVariables.length; i++)
+{
+var sParameterName = sURLVariables[i].split('=');
+if (sParameterName[0] == sParam)
+{
+return sParameterName[1];
+}
+}
+}
 </script>
-
 </body>
 </html>

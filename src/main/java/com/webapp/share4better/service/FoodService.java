@@ -5,6 +5,8 @@ import com.webapp.share4better.repository.IFoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FoodService implements IFoodService {
     @Autowired
@@ -19,4 +21,13 @@ public class FoodService implements IFoodService {
     public Iterable<Food> getAllReceivedFood(Integer id) {
         return repository.listReceivedFoodsForUser(id);
     }
+
+    public Food addFood(Food food) {
+      return repository.save(food);
+    }
+
+    public Optional<Food> findById(int i) {
+        return repository.findById(i);
+    }
+
 }

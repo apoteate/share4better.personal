@@ -5,8 +5,23 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+<script>
+    $(document).ready(function() {
+    if(window.location.href.indexOf('#sucsess') != -1) {
+    $(document.getElementById('sucsess').style.display='block').modal('show');
+    }
+  });
+
+var modal = document.getElementById('sucsess');
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 <body ng-app="mainApp" ng-controller="appController">
 <nav class="navbar navbar-inverse fixed-top">
     <div class="container-fluid">
@@ -37,18 +52,25 @@
                         <li><a href="/personalUpdate.html">Personal Info</a></li>
                     </ul>
                 </li>
+                <li><a href="/contributeFood.html">Contribute Food</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Welcome, {{user.user_name}}</a></li>
+                <li><a href="/personalUpdate.html">Welcome, {{user.user_name}}</a></li>
                 <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
 </nav>
-
-
-
-
+<div class="w3-container">
+    <div id="sucsess" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('sucsess').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                <p>Thank you for your for your contribution</p>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
         var app = angular.module("mainApp", []);
