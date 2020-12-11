@@ -62,6 +62,8 @@ window.onclick = function(event) {
 
 
 <body>
+<body ng-app="mainApp" ng-controller="appController">
+</body>
 <div class="bgimg">
     <div class="middle">
         <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
@@ -74,7 +76,7 @@ window.onclick = function(event) {
           title="Close Modal">&times;</span>
     <form action="/validateUser" class="modal-content" id="login" method="post">
         <div class="container">
-            <h1>Share4Better Login</h1>
+
             <hr>
             <label><b>User Name</b></label>
             <input class="form-control" id="userEmail" name="userEmail"
@@ -232,6 +234,26 @@ window.onclick = function(event) {
     </form>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script type="text/javascript">
+        var app = angular.module("mainApp", []);
 
+    app.controller("appController", function($scope,$http) {
+        $http({
+            url:'getUserCurrentUser',
+            method:'GET',
+        }).then(function (response){
+            console.log(response);
+            $scope.user = response.data;
+
+             if (response.data.user_email != null) {
+                 console.log('user logged in already');
+                 window.location.href='/home.html';
+             }
+        },function (data){
+            console.log(response);
+        });
+    });
+</script>
 </body>
 </html>

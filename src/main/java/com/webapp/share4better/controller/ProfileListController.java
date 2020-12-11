@@ -76,11 +76,15 @@ public class ProfileListController {
             headers = "Accept=application/json"
     )
     public ResponseEntity<Profile> getUser(HttpServletRequest httpServletRequest) {
-        int userId = (int) httpServletRequest.getSession().getAttribute("userID");
-        Optional<Profile> profile = service.findUserById(userId);
-        if (profile.isPresent()) {
-            return new ResponseEntity<>(profile.get(), HttpStatus.OK);
+        if (httpServletRequest.getSession().getAttribute("userID") != null) {
+            int userId = (int) httpServletRequest.getSession().getAttribute("userID");
+            Optional<Profile> profile = service.findUserById(userId);
+            if (profile.isPresent()) {
+                return new ResponseEntity<>(profile.get(), HttpStatus.OK);
+            }
         }
+
+
         return new ResponseEntity<>(new Profile(), HttpStatus.OK);
     }
 
