@@ -56,17 +56,13 @@ window.onclick = function(event) {
     </nav>
 
     <div class="container">
-        <h2>Dashboard</h2>
+        <h2>My Pending Foods</h2>
         <ul class="list-group" ng-repeat="item in items">
+            <li class="list-group-item">{{item.receiveOrContributorName}} <span class="badge">Contributor</span></li>
             <li class="list-group-item">{{item.name}} <span class="badge">Name</span></li>
             <li class="list-group-item">{{item.type}} <span class="badge">Type</span></li>
             <li class="list-group-item">{{item.quantity}} <span class="badge">Quantity</span></li>
             <li class="list-group-item">{{item.quality}} <span class="badge">Quality</span></li>
-            <br>
-            <form action="/requestBooking" method="GET">
-                <input id="foodId" name="foodId" type="hidden" value={{item.id}}>
-                <button type="submit">Request This Food</button>
-            </form>
         </ul>
     </div>
 
@@ -75,7 +71,7 @@ window.onclick = function(event) {
     var app = angular.module("mainApp", []);
     app.controller("dashboardController", function($scope,$http) {
         $http({
-            url:'dashboard',
+            url:'myPendingFood',
             method:'GET',
         }).then(function (response){
             console.log(response);
