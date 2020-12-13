@@ -5,7 +5,6 @@ import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.model.ReceiverFoodList;
 import com.webapp.share4better.model.RequestFood;
 import com.webapp.share4better.repository.IRequestFoodRepository;
-import com.webapp.share4better.repository.IUserRepository;
 import com.webapp.share4better.service.IFoodService;
 import com.webapp.share4better.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ public class FoodListController {
     private IProfileService profileService;
 
     @Autowired
-    private IUserRepository userRepository;
-    @Autowired
     private IRequestFoodRepository requestFoodRepository;
 
     @RequestMapping(
@@ -40,7 +37,7 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<List<ReceiverFoodList>> getAllContributedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>> getAllAvailableFood(HttpServletRequest httpServletRequest) {
 
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
         try {
@@ -120,7 +117,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
 
-                Optional<Profile> profile = userRepository.findById(food.getContributorID());
+                Optional<Profile> profile = profileService.findUserById(food.getContributorID());
 
                 if (profile.isPresent()) {
                     receiverOrContributorName = profile.get().getUser_name();
