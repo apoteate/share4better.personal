@@ -1,7 +1,11 @@
 package com.webapp.share4better.controller;
 
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 import com.webapp.share4better.model.Food;
+import com.webapp.share4better.model.Profile;
+import com.webapp.share4better.model.ReceiverFoodList;
 import com.webapp.share4better.service.IFoodService;
+import com.webapp.share4better.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +16,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class FoodListController {
     @Autowired
     private IFoodService service;
+    @Autowired
+    private IProfileService profileService;
 
     @RequestMapping(
             path="/contributedList",
@@ -25,12 +33,43 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllContributedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>> getAllContributedFood(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<Iterable<Food>>(service.getAllContributedFood(userID), HttpStatus.OK);
+            Iterable<Food> foodIterable = service.getAllContributedFood(userID);
+
+
+            List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
+
+            for (Food food : foodIterable) {
+
+                ReceiverFoodList receiverFoodList = new ReceiverFoodList();
+
+                receiverFoodList.setId(food.getId());
+                receiverFoodList.setContributorID(food.getContributorID());
+                receiverFoodList.setName(food.getName());
+                receiverFoodList.setQuality(food.getQuality());
+                receiverFoodList.setQuantity(food.getQuantity());
+                receiverFoodList.setType(food.getType());
+
+                receiverFoodList.setReceiverID(food.getReceiverID());
+                String receiverName = "Not yet received by anyone";
+                if (food.getReceiverID() != null) {
+                   Optional<Profile> profile = profileService.findUserById(food.getReceiverID());
+                    if (profile.isPresent()) {
+                        receiverName = profile.get().getUser_name();
+                    }
+                }
+                receiverFoodList.setReceiveOrContributorName(receiverName);
+
+                receiverFoodArrayList.add(receiverFoodList);
+            }
+
+            return new ResponseEntity<>(receiverFoodArrayList, HttpStatus.OK);
+
+
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -41,12 +80,42 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllReceivedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>>  getAllReceivedFood(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            return new ResponseEntity<Iterable<Food>>(service.getAllReceivedFood(userID), HttpStatus.OK);
+            Iterable<Food> foodIterable = service.getAllReceivedFood(userID);
+
+            List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
+
+            for (Food food : foodIterable) {
+
+                ReceiverFoodList receiverFoodList = new ReceiverFoodList();
+
+                receiverFoodList.setId(food.getId());
+                receiverFoodList.setContributorID(food.getContributorID());
+                receiverFoodList.setName(food.getName());
+                receiverFoodList.setQuality(food.getQuality());
+                receiverFoodList.setQuantity(food.getQuantity());
+                receiverFoodList.setType(food.getType());
+
+                receiverFoodList.setReceiverID(food.getReceiverID());
+                String receiverOrContributorName = null;
+                if (food.getReceiverID() != null) {
+                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
+                    if (profile.isPresent()) {
+                        receiverOrContributorName = profile.get().getUser_name();
+                    }
+                }
+                receiverFoodList.setReceiveOrContributorName(receiverOrContributorName);
+
+                receiverFoodArrayList.add(receiverFoodList);
+            }
+
+
+
+            return new ResponseEntity<>(receiverFoodArrayList, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
