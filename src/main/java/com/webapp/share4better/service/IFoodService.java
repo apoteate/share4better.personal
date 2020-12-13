@@ -10,4 +10,5 @@ public interface IFoodService {
     public Iterable<Food> getAllAvailableFood();
     public Food addFood(Food food);
     public Optional<Food> findById(int i);
+    public void updateReceiverId(int receiverid, int id);
 }

@@ -35,4 +35,8 @@ public class FoodService implements IFoodService {
         return repository.findById(i);
     }
 
+    public void updateReceiverId(int receiverid, int id){
+         repository.updateReceiverId(receiverid,id);
+    }
+
 }
