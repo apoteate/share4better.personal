@@ -119,7 +119,7 @@ public class FoodListController {
 
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
-                System.out.println("getContributorID" + food.getContributorID());
+
                 Optional<Profile> profile = userRepository.findById(food.getContributorID());
 
                 if (profile.isPresent()) {
@@ -128,10 +128,7 @@ public class FoodListController {
 
                 receiverFoodList.setReceiveOrContributorName(receiverOrContributorName);
 
-                receiverFoodArrayList.add(receiverFoodList);
-
                 Iterable<RequestFood>  requestFoods = requestFoodRepository.listAlreadyRequestedFood(userID);
-
 
                 for (RequestFood requestFood : requestFoods) {
                     if (requestFood.getFoodId().equals(receiverFoodList.getId())){
@@ -150,6 +147,119 @@ public class FoodListController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @RequestMapping(
+            path="/removeBooking",
+            method = RequestMethod.GET,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public void removeBooking(@RequestParam("foodId") int foodId,HttpServletRequest httpServletRequest,HttpServletResponse response) throws IOException {
+        int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+
+        RequestFood requestFood = new RequestFood();
+        requestFood.setFoodId(foodId);
+        requestFood.setReceiverID(userID);
+
+        Optional<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodId);
+
+        if (requestFoodOptional.isPresent()) {
+            requestFoodRepository.delete(requestFoodOptional.get());
+        }
+
+        StringBuilder htmlBuilder = new StringBuilder();
+
+        Optional<Food> food =  service.findById(foodId);
+        if (food.isPresent()) {
+
+
+            htmlBuilder.append("<!DOCTYPE html>\n" +
+                    "<html>\n" +
+                    "<head>\n" +
+                    "    <meta charset=\"utf 8\">\n" +
+                    "    <title>Contributed Items</title>\n" +
+                    "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">\n" +
+                    "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n" +
+                    "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>\n" +
+                    "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                    "    <link rel=\"stylesheet\" href=\"https://www.w3schools.com/w3css/4/w3.css\">\n" +
+                    "    <style>\n" +
+                    ".loader {\n" +
+                    "  border: 16px solid #f3f3f3;\n" +
+                    "  border-radius: 50%;\n" +
+                    "  border-top: 16px solid #3498db;\n" +
+                    "  width: 50px;\n" +
+                    "  height: 50px;\n" +
+                    "  -webkit-animation: spin 2s linear infinite; /* Safari */\n" +
+                    "  animation: spin 2s linear infinite;\n" +
+                    "}\n" +
+                    "\n" +
+                    "/* Safari */\n" +
+                    "@-webkit-keyframes spin {\n" +
+                    "  0% { -webkit-transform: rotate(0deg); }\n" +
+                    "  100% { -webkit-transform: rotate(360deg); }\n" +
+                    "}\n" +
+                    "\n" +
+                    "@keyframes spin {\n" +
+                    "  0% { transform: rotate(0deg); }\n" +
+                    "  100% { transform: rotate(360deg); }\n" +
+                    "}\n" +
+                    "</style>\n" +
+                    "</head>\n" +
+                    "\n" +
+                    "\n" +
+                    "<nav class=\"navbar navbar-inverse fixed-top\">\n" +
+                    "    <div class=\"container-fluid\">\n" +
+                    "        <div class=\"navbar-header\">\n" +
+                    "            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">\n" +
+                    "                <span class=\"icon-bar\"></span>\n" +
+                    "                <span class=\"icon-bar\"></span>\n" +
+                    "                <span class=\"icon-bar\"></span>\n" +
+                    "            </button>\n" +
+                    "            <a class=\"navbar-brand\" href=\"/home.html\">Share4Better</a>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"collapse navbar-collapse\" id=\"myNavbar\">\n" +
+                    "            <ul class=\"nav navbar-nav navbar-right\">\n" +
+                    "                <li><a href=\"/home.html\"><span class=\"glyphicon glyphicon-home\"></span> Home</a></li>\n" +
+                    "                <li><a href=\"/invalidate\"><span class=\"glyphicon glyphicon-log-out\"></span> Logout</a></li>\n" +
+                    "            </ul>\n" +
+                    "        </div>\n" +
+                    "    </div>\n" +
+                    "\n" +
+                    "\n" +
+                    "</nav>\n" +
+                    "<div class=\"w3-container w3-center w3-animate-top\">\n" +
+                    "    <h1>Please wait while request this food for you</h1>\n" +
+                    "</div>\n" +
+                    "<center><div class=\"loader\"></div></center>\n" +
+                    "\n" +
+                    "\n" +
+                    "<br>\n" +
+                    "<br>\n" +
+                    "<div class=\"container\">\n" +
+                    "\n" +
+                    "    <ul class=\"list-group\" ng-repeat=\"item in items\">\n" +
+                    "        <li class=\"list-group-item\">" + food.get().getName() + " <span class=\"badge\">Name</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + food.get().getType() + " <span class=\"badge\">Type</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + food.get().getQuality() + " <span class=\"badge\">Quality</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + food.get().getQuantity() + " <span class=\"badge\">Quantity</span></li>\n" +
+                    "    </ul>\n" +
+                    "</div>\n" +
+                    "\n" +
+                    "<script>\n" +
+                    "         setTimeout(function(){\n" +
+                    "            window.location.href = '/mypendingFood.html#removed';\n" +
+                    "         }, 5000);\n" +
+                    "      </script>\n" +
+                    "</body>\n" +
+                    "</html>");
+
+        }
+        response.getWriter().write(htmlBuilder.toString());
+
+
+    }
+
 
 
     @RequestMapping(
