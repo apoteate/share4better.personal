@@ -10,4 +10,7 @@ public interface IFoodRepository extends CrudRepository<Food, Integer> {
 
     @Query(value="SELECT * FROM food e WHERE e.receiverID = ?1", nativeQuery = true)
     public Iterable<Food> listReceivedFoodsForUser(Integer receiverID);
+
+    @Query(value="SELECT * from food e where e.receiverID is null", nativeQuery = true)
+    public Iterable<Food> listAvailableFoods();
 }

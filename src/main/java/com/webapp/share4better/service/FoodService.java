@@ -22,6 +22,11 @@ public class FoodService implements IFoodService {
         return repository.listReceivedFoodsForUser(id);
     }
 
+    @Override
+    public Iterable<Food> getAllAvailableFood() {
+        return repository.listAvailableFoods();
+    }
+
     public Food addFood(Food food) {
       return repository.save(food);
     }

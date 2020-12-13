@@ -28,6 +28,20 @@ public class FoodListController {
     private IProfileService profileService;
 
     @RequestMapping(
+            path="/dashboard",
+            method = RequestMethod.GET,
+            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            headers = "Accept=application/json"
+    )
+    public ResponseEntity<Iterable<Food>> getAllContributedFood() {
+        try {
+            return new ResponseEntity<Iterable<Food>>(service.getAllAvailableFood(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(
             path="/contributedList",
             method = RequestMethod.GET,
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },

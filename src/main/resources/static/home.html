@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf 8">
     <title>Home</title>
@@ -24,62 +24,65 @@ window.onclick = function(event) {
 </script>
 <body>
 <div ng-app="mainApp" ng-controller="appController">
-
-<nav class="navbar navbar-inverse fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/home.html">Share4Better</a>
+    <nav class="navbar navbar-inverse fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home.html">Share4Better</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">History <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/contributedList.html">Contribution</a></li>
+                            <li><a href="/receivedList.html">Received</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/contactUpdate.html">Contact</a></li>
+                            <li><a href="/addressUpdate.html">Address</a></li>
+                            <li><a href="/personalUpdate.html">Personal Info</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/contributeFood.html">Contribute Food</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/personalUpdate.html">Welcome, {{user.user_name}}</a></li>
+                    <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">History <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contributedList.html">Contribution</a></li>
-                        <li><a href="/receivedList.html">Received</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/contactUpdate.html">Contact</a></li>
-                        <li><a href="/addressUpdate.html">Address</a></li>
-                        <li><a href="/personalUpdate.html">Personal Info</a></li>
-                    </ul>
-                </li>
-                <li><a href="/contributeFood.html">Contribute Food</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="/personalUpdate.html">Welcome, {{user.user_name}}</a></li>
-                <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="w3-container">
-    <div id="sucsess" class="w3-modal">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-                <span onclick="document.getElementById('sucsess').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+    </nav>
+    <div class="w3-container">
+        <div id="sucsess" class="w3-modal">
+            <div class="w3-modal-content">
+                <div class="w3-container">
+                    <span onclick="document.getElementById('sucsess').style.display='none'" class="w3-button w3-display-topright">&times;</span>
 
-                <h3>Your contribution is successfully received.</h3>
-                <br>
-                <h4>Thank you for supporting!.</h4>
+                    <h3>Your contribution is successfully received.</h3>
+                    <br>
+                    <h4>Thank you for supporting!.</h4>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="text-center">
+<button type="button" onclick="location.href='/dashboard.html'" class="btn btn-success btn-lg">Go to Dashboard</button>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
 <script type="text/javascript">
-        var app = angular.module("mainApp", []);
+    var app = angular.module("mainApp", []);
     app.controller("appController", function($scope,$http) {
         $http({
             url:'getUserCurrentUser',
