@@ -95,7 +95,6 @@ public class ProfileListControllerTest {
         Profile profile = profileListController.getUser(httpServletRequest).getBody();
         assertEquals("UserName", "FirstName LastName", profile.getUser_name());
         assertEquals("UserEmail", "test@test.com", profile.getUser_email());
-        assertEquals("DonorStatus", true, profile.isDonor_status());
         assertEquals("Password", "123456", profile.getUser_password());
     }
 

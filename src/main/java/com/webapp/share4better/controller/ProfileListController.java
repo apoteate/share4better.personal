@@ -57,7 +57,6 @@ public class ProfileListController {
         userProfile.setUser_name(userName);
         userProfile.setUser_email(userEmail);
         userProfile.setUser_password(password);
-        userProfile.setDonor_status(true);
         service.addUser(userProfile);
 
         Optional<Profile> user = service.getUserProfile(userEmail);
@@ -109,7 +108,6 @@ public class ProfileListController {
         profileInput.setUser_name(fullName);
         profileInput.setUser_email(userEmail);
         profileInput.setUser_password(userPass);
-        profileInput.setDonor_status(true);
         service.addUser(profileInput);
 
         return "redirect:/personalUpdate.html";

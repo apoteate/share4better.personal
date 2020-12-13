@@ -86,7 +86,6 @@ public class TestUtil {
         profile.setUser_id(id);
         profile.setUser_name(userName);
         profile.setUser_email(email);
-        profile.setDonor_status(true);
         profile.setUser_password(password);
         return profile;
     }

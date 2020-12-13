@@ -43,7 +43,6 @@ public class IProfileServiceTest {
         assertEquals("FirstName LastName", getProfile.get().getUser_name());
         assertEquals(99999999, getProfile.get().getUser_id());
         assertEquals("123456", getProfile.get().getUser_password());
-        assertEquals(true, getProfile.get().isDonor_status());
     }
 
 }
