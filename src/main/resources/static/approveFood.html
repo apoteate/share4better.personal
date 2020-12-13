@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf 8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<script>
+    $(document).ready(function() {
+    if(window.location.href.indexOf('#sucsess') != -1) {
+    $(document.getElementById('sucsess').style.display='block').modal('show');
+    }
+  });
+
+var modal = document.getElementById('sucsess');
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+    $(document).ready(function() {
+    if(window.location.href.indexOf('#removed') != -1) {
+    $(document.getElementById('removed').style.display='block').modal('show');
+    }
+  });
+
+var modal = document.getElementById('removed');
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+
+<div class="w3-container">
+    <div id="removed" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('removed').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+
+                <h3>Your have successfully removed booking. </h3>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w3-container">
+    <div id="sucsess" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+                <span onclick="document.getElementById('sucsess').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+
+                <h3>Your have successfully Approved food.This contribution will appear under my Contribution page</h3>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<body ng-app="mainApp" ng-controller="dashboardController">
+    <nav class="navbar navbar-inverse fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home.html">Share4Better</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/home.html"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li><a href="/invalidate"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>List of Requested food</h2>
+        <ul class="list-group" ng-repeat="item in items">
+            <li class="list-group-item">{{item.receiveOrContributorName}} <span class="badge">Requested Receiver</span></li>
+            <li class="list-group-item">{{item.name}} <span class="badge">Name</span></li>
+            <li class="list-group-item">{{item.type}} <span class="badge">Type</span></li>
+            <li class="list-group-item">{{item.quantity}} <span class="badge">Quantity</span></li>
+            <li class="list-group-item">{{item.quality}} <span class="badge">Quality</span></li>
+            <br>
+            <form action="/ApproveFood" method="GET">
+                <input id="foodId" name="foodId" type="hidden" value={{item.id}}>
+                <input id="receiverID" name="receiverID" type="hidden" value={{item.receiverID}}>
+                <button type="submit">Approve This booking</button>
+            </form>
+        </ul>
+
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+<script type="text/javascript">
+    var app = angular.module("mainApp", []);
+    app.controller("dashboardController", function($scope,$http) {
+        $http({
+            url:'ListOfMyRequestedFood',
+            method:'GET',
+        }).then(function (response){
+            console.log(response);
+            $scope.items = response.data;
+        },function (response){
+            console.log(response);
+        });
+    });
+</script>
+
+</body>
+</html>

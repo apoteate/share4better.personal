@@ -14,6 +14,6 @@ public interface IRequestFoodRepository extends CrudRepository<RequestFood, Inte
     public Iterable<RequestFood> listAlreadyRequestedFood(Integer contributorID);
 
     @Query(value="SELECT * FROM request_food e WHERE e.food_id = ?1", nativeQuery = true)
-    public Optional<RequestFood> findFoodByFoodId(Integer foodId);
+    public Iterable<RequestFood> findFoodByFoodId(Integer foodId);
 
 }
