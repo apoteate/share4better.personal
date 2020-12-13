@@ -20,13 +20,16 @@ public class ProfileService implements IProfileService {
     @Autowired
     private IEncryption encryption;
 
-    @Override
-    public Optional<Profile> getUserProfile(String userEmail) {
-        Optional<Profile> profile = repository.userAuthentication(userEmail);
+    private Optional<Profile> decryptPassword(Optional<Profile> profile) {
         if (profile.isPresent()) {
             String password = null;
             try {
-                password = encryption.decrypt(profile.get().getUser_password());
+                if (encryption.isEncrypted(profile.get().getUser_password())) {
+                    password = encryption.decrypt(profile.get().getUser_password());
+                }
+                else {
+                    password = profile.get().getUser_password();
+                }
             } catch (InvalidKeyException e) {
                 e.printStackTrace();
             } catch (NoSuchPaddingException e) {
@@ -44,8 +47,13 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public void addUser(Profile profile) {
+    public Optional<Profile> getUserProfile(String userEmail) {
+        Optional<Profile> profile = repository.userAuthentication(userEmail);
+        return decryptPassword(profile);
+    }
 
+    @Override
+    public void addUser(Profile profile) {
         if (profile.getUser_password()!= null && !encryption.isEncrypted(profile.getUser_password())) {
          String password = encryption.encrypt(profile.getUser_password());
          profile.setUser_password(password);
@@ -55,7 +63,8 @@ public class ProfileService implements IProfileService {
 
     @Override
     public Optional<Profile> findUserById(Integer id) {
-        return repository.findUser(id);
+        Optional<Profile> profile = repository.findUser(id);
+        return decryptPassword(profile);
     }
 
     @Override
