@@ -170,7 +170,7 @@ public class FoodListController {
         if (food.isPresent()) {
 
 
-            htmlBuilder.append(getHtml(food, "    <h1>Please wait while request this food for you</h1>\n", "            window.location.href = '/mypendingFood.html#removed';\n"));
+            htmlBuilder.append(getHtml(food, "    <h1>Please wait while we remove this food for you</h1>\n", "            window.location.href = '/mypendingFood.html#removed';\n"));
 
         }
         response.getWriter().write(htmlBuilder.toString());
