@@ -55,26 +55,7 @@ public class ProfileService implements IProfileService {
 
     @Override
     public Optional<Profile> findUserById(Integer id) {
-        Optional<Profile> profile = repository.findUser(id);
-        if (profile.isPresent()) {
-            String password = null;
-            try {
-                password = encryption.decrypt(profile.get().getUser_password());
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (BadPaddingException e) {
-                e.printStackTrace();
-            } catch (IllegalBlockSizeException e) {
-                e.printStackTrace();
-            }
-            profile.get().setUser_password(password);
-        }
-
-        return profile;
+        return repository.findUser(id);
     }
 
     @Override
