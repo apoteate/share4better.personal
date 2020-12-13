@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Random;
 
@@ -112,6 +114,16 @@ public class ProfileListController {
 
         return "redirect:/personalUpdate.html";
 
+    }
+
+    @PostMapping("/updateImage")
+    public String saveImage(@RequestParam("image") MultipartFile multipartFile, HttpServletRequest httpServletRequest) throws IOException {
+        int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+        Optional<Profile> profile = service.findUserById(userID);
+        profile.get().setPhotos(multipartFile.getBytes());
+        service.addUser(profile.get()); // This will add the updated user.
+
+        return "redirect:/personalUpdate.html";
     }
 
     @RequestMapping("/invalidate")

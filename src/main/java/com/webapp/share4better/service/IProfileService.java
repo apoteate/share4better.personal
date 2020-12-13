@@ -9,5 +9,4 @@ public interface IProfileService {
     public void addUser(Profile profile);
     public Optional<Profile> findUserById(Integer id);
     public void removeUser(Integer id);
-
 }

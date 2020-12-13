@@ -29,6 +29,25 @@
 
 <div class="container">
     <h2>PERSONAL INFORMATION</h2>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-xl-3 ">
+                    <img class="img-circle" style="width: 30%; height: 30%;" id="profileImage" src="" alt="No photo uploaded yet!"/>
+                </div>
+            </div>
+            <form action="/updateImage"
+                  method="POST"
+                  enctype="multipart/form-data"
+            >
+                <div class="form-group">
+                    <label class="control-label" for="image">Upload Image:</label>
+                    <input type="file" class="form-control" id="image" placeholder="Upload Image"  name="image" accept="image/jpeg" />
+                </div>
+                <button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
+            </form>
+        </li>
+    </ul>
     <form action="/updateProfile" method="POST">
     <ul class="list-group">
         <li class="list-group-item"> <input id="fullName" name="fullName" placeholder="Update Full Name" type="text" value={{items.user_name}}
@@ -54,6 +73,7 @@
         }).then(function (response){
             console.log(response);
             $scope.items = response.data;
+            document.getElementById("profileImage").src = "data:image/jpeg;base64," + response.data.photos;
         },function (response){
             console.log(response);
         });

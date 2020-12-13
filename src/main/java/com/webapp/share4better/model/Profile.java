@@ -16,6 +16,16 @@ public class Profile {
 
     public boolean donor_status;
 
+    public byte[] getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(byte[] photos) {
+        this.photos = photos;
+    }
+
+    private byte[] photos;
+
     public String getUser_name() {
         return user_name;
     }

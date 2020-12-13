@@ -81,5 +81,4 @@ public class ProfileService implements IProfileService {
     public void removeUser(Integer id) {
         repository.deleteById(id);
     }
-
 }
