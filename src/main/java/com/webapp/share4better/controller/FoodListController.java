@@ -156,10 +156,12 @@ public class FoodListController {
         requestFood.setFoodId(foodId);
         requestFood.setReceiverID(userID);
 
-        Optional<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodId);
+        Iterable<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodId);
 
-        if (requestFoodOptional.isPresent()) {
-            requestFoodRepository.delete(requestFoodOptional.get());
+        for (RequestFood request : requestFoodOptional) {
+
+                requestFoodRepository.delete(request);
+
         }
 
         StringBuilder htmlBuilder = new StringBuilder();
@@ -576,11 +578,12 @@ public class FoodListController {
             Iterable<Food> foodIterable = service.getAllContributedFood(userID);
             List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
             for (Food food : foodIterable) {
-                ReceiverFoodList receiverFoodList = new ReceiverFoodList();
 
-                Optional<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(food.getId());
 
-                if (requestFoodOptional.isPresent()) {
+                Iterable<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(food.getId());
+
+                for (RequestFood requestFood : requestFoodOptional)  {
+                    ReceiverFoodList receiverFoodList = new ReceiverFoodList();
                     receiverFoodList.setId(food.getId());
                     receiverFoodList.setContributorID(food.getContributorID());
                     receiverFoodList.setName(food.getName());
@@ -589,10 +592,10 @@ public class FoodListController {
                     receiverFoodList.setQuality(food.getQuality());
 
 
-                    Optional<Profile> requester = userRepository.findById(requestFoodOptional.get().getReceiverID());
+                    Optional<Profile> requester = userRepository.findById(requestFood.getReceiverID());
                     if (requester.isPresent()) {
                         receiverFoodList.setReceiveOrContributorName(requester.get().getUser_name());
-                        receiverFoodList.setReceiverID(requestFoodOptional.get().getReceiverID());
+                        receiverFoodList.setReceiverID(requestFood.getReceiverID());
 
                     }
                     receiverFoodArrayList.add(receiverFoodList);
@@ -624,9 +627,9 @@ public class FoodListController {
         if (foodIterable.isPresent()) {
 
             service.updateReceiverId(userIdForReceiver, foodIterable.get().getId());
-            Optional<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodIterable.get().getId());
-            if (requestFoodOptional.isPresent()) {
-                requestFoodRepository.deleteById(requestFoodOptional.get().getId());
+            Iterable<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodIterable.get().getId());
+            for (RequestFood requestFood : requestFoodOptional){
+                requestFoodRepository.deleteById(requestFood.getId());
             }
         }
 
