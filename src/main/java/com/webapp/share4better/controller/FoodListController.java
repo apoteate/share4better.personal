@@ -7,13 +7,15 @@ import com.webapp.share4better.model.RequestFood;
 import com.webapp.share4better.repository.IRequestFoodRepository;
 import com.webapp.share4better.repository.IUserRepository;
 import com.webapp.share4better.service.IFoodService;
-import com.webapp.share4better.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,17 +29,14 @@ public class FoodListController {
     @Autowired
     private IFoodService service;
     @Autowired
-    private IProfileService profileService;
-
-    @Autowired
     private IUserRepository userRepository;
     @Autowired
     private IRequestFoodRepository requestFoodRepository;
 
     @RequestMapping(
-            path="/dashboard",
+            path = "/dashboard",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
     public ResponseEntity<List<ReceiverFoodList>> getAllContributedFood(HttpServletRequest httpServletRequest) {
@@ -62,7 +61,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
                 if (food.getReceiverID() != null) {
-                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
+                    Optional<Profile> profile = userRepository.findById(food.getContributorID());
                     if (profile.isPresent()) {
                         receiverOrContributorName = profile.get().getUser_name();
                     }
@@ -71,11 +70,11 @@ public class FoodListController {
 
                 receiverFoodArrayList.add(receiverFoodList);
 
-                Iterable<RequestFood>  requestFoods = requestFoodRepository.listAlreadyRequestedFood(userID);
+                Iterable<RequestFood> requestFoods = requestFoodRepository.listAlreadyRequestedFood(userID);
 
 
                 for (RequestFood requestFood : requestFoods) {
-                    if (requestFood.getFoodId().equals(receiverFoodList.getId())){
+                    if (requestFood.getFoodId().equals(receiverFoodList.getId())) {
                         receiverFoodArrayList.remove(receiverFoodList);
                     }
 
@@ -91,9 +90,9 @@ public class FoodListController {
 
 
     @RequestMapping(
-            path="/myPendingFood",
+            path = "/myPendingFood",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
     public ResponseEntity<List<ReceiverFoodList>> getMyPendingFoods(HttpServletRequest httpServletRequest) {
@@ -128,10 +127,10 @@ public class FoodListController {
 
                 receiverFoodList.setReceiveOrContributorName(receiverOrContributorName);
 
-                Iterable<RequestFood>  requestFoods = requestFoodRepository.listAlreadyRequestedFood(userID);
+                Iterable<RequestFood> requestFoods = requestFoodRepository.listAlreadyRequestedFood(userID);
 
                 for (RequestFood requestFood : requestFoods) {
-                    if (requestFood.getFoodId().equals(receiverFoodList.getId())){
+                    if (requestFood.getFoodId().equals(receiverFoodList.getId())) {
                         receiverFoodArrayList.add(receiverFoodList);
                     }
 
@@ -145,12 +144,12 @@ public class FoodListController {
     }
 
     @RequestMapping(
-            path="/removeBooking",
+            path = "/removeBooking",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public void removeBooking(@RequestParam("foodId") int foodId,HttpServletRequest httpServletRequest,HttpServletResponse response) throws IOException {
+    public void removeBooking(@RequestParam("foodId") int foodId, HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
 
         RequestFood requestFood = new RequestFood();
@@ -165,7 +164,7 @@ public class FoodListController {
 
         StringBuilder htmlBuilder = new StringBuilder();
 
-        Optional<Food> food =  service.findById(foodId);
+        Optional<Food> food = service.findById(foodId);
         if (food.isPresent()) {
 
 
@@ -257,14 +256,13 @@ public class FoodListController {
     }
 
 
-
     @RequestMapping(
-            path="/requestBooking",
+            path = "/requestBooking",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public void requestFoodBooking(@RequestParam("foodId") int foodId,HttpServletRequest httpServletRequest,HttpServletResponse response) throws IOException {
+    public void requestFoodBooking(@RequestParam("foodId") int foodId, HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
 
         RequestFood requestFood = new RequestFood();
@@ -274,7 +272,7 @@ public class FoodListController {
 
         StringBuilder htmlBuilder = new StringBuilder();
 
-        Optional<Food> food =  service.findById(foodId);
+        Optional<Food> food = service.findById(foodId);
         if (food.isPresent()) {
 
 
@@ -366,11 +364,10 @@ public class FoodListController {
     }
 
 
-
     @RequestMapping(
-            path="/contributedList",
+            path = "/contributedList",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
     public ResponseEntity<List<ReceiverFoodList>> getAllContributedFoods(HttpServletRequest httpServletRequest) {
@@ -395,7 +392,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverName = "Not yet received by anyone";
                 if (food.getReceiverID() != null) {
-                   Optional<Profile> profile = profileService.findUserById(food.getReceiverID());
+                    Optional<Profile> profile = userRepository.findById(food.getReceiverID());
                     if (profile.isPresent()) {
                         receiverName = profile.get().getUser_name();
                     }
@@ -415,12 +412,12 @@ public class FoodListController {
     }
 
     @RequestMapping(
-            path="/receivedList",
+            path = "/receivedList",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public ResponseEntity<List<ReceiverFoodList>>  getAllReceivedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>> getAllReceivedFood(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
             Iterable<Food> foodIterable = service.getAllReceivedFood(userID);
@@ -441,7 +438,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
                 if (food.getReceiverID() != null) {
-                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
+                    Optional<Profile> profile = userRepository.findById(food.getContributorID());
                     if (profile.isPresent()) {
                         receiverOrContributorName = profile.get().getUser_name();
                     }
@@ -450,7 +447,6 @@ public class FoodListController {
 
                 receiverFoodArrayList.add(receiverFoodList);
             }
-
 
 
             return new ResponseEntity<>(receiverFoodArrayList, HttpStatus.OK);
@@ -465,19 +461,19 @@ public class FoodListController {
 
         StringBuilder htmlBuilder = new StringBuilder();
 
-            int userID = (int) httpServletRequest.getSession().getAttribute("userID");
-            Food food = new Food();
-            food.setContributorID(userID);
-            food.setName(foodName);
-            food.setType(foodType);
-            food.setQuality(foodQuality);
-            food.setQuantity(foodQuantity);
+        int userID = (int) httpServletRequest.getSession().getAttribute("userID");
+        Food food = new Food();
+        food.setContributorID(userID);
+        food.setName(foodName);
+        food.setType(foodType);
+        food.setQuality(foodQuality);
+        food.setQuantity(foodQuantity);
 
-            Food save = service.addFood(food);
+        Food save = service.addFood(food);
         Optional<Food> savedFood = service.findById(save.getId());
 
         if (savedFood.isPresent()) {
-           // return "id =" + savedFood.get().getId();
+            // return "id =" + savedFood.get().getId();
 
             htmlBuilder.append("<!DOCTYPE html>\n" +
                     "<html>\n" +
@@ -545,10 +541,10 @@ public class FoodListController {
                     "<div class=\"container\">\n" +
                     "\n" +
                     "    <ul class=\"list-group\" ng-repeat=\"item in items\">\n" +
-                    "        <li class=\"list-group-item\">"+  savedFood.get().getName() +" <span class=\"badge\">Name</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + savedFood.get().getName() + " <span class=\"badge\">Name</span></li>\n" +
                     "        <li class=\"list-group-item\">" + savedFood.get().getType() + " <span class=\"badge\">Type</span></li>\n" +
-                    "        <li class=\"list-group-item\">"+ savedFood.get().getQuality() +" <span class=\"badge\">Quality</span></li>\n" +
-                    "        <li class=\"list-group-item\">"+ savedFood.get().getQuantity() + " <span class=\"badge\">Quantity</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + savedFood.get().getQuality() + " <span class=\"badge\">Quality</span></li>\n" +
+                    "        <li class=\"list-group-item\">" + savedFood.get().getQuantity() + " <span class=\"badge\">Quantity</span></li>\n" +
                     "    </ul>\n" +
                     "</div>\n" +
                     "\n" +
@@ -568,15 +564,13 @@ public class FoodListController {
     }
 
 
-
-
     @RequestMapping(
-            path="/ListOfMyRequestedFood",
+            path = "/ListOfMyRequestedFood",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public ResponseEntity<List<ReceiverFoodList>>  getAllRequestedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>> getAllRequestedFood(HttpServletRequest httpServletRequest) {
         try {
             int userID = (int) httpServletRequest.getSession().getAttribute("userID");
             Iterable<Food> foodIterable = service.getAllContributedFood(userID);
@@ -593,7 +587,6 @@ public class FoodListController {
                     receiverFoodList.setType(food.getType());
                     receiverFoodList.setQuantity(food.getQuantity());
                     receiverFoodList.setQuality(food.getQuality());
-
 
 
                     Optional<Profile> requester = userRepository.findById(requestFoodOptional.get().getReceiverID());
@@ -617,23 +610,20 @@ public class FoodListController {
     }
 
 
-
-
-
     @RequestMapping(
-            path="/ApproveFood",
+            path = "/ApproveFood",
             method = RequestMethod.GET,
-            produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
+            produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public void approveFoodBooking(@RequestParam("foodId") int foodId,@RequestParam("receiverID") int userIdForReceiver,HttpServletRequest httpServletRequest,HttpServletResponse response) throws IOException {
+    public void approveFoodBooking(@RequestParam("foodId") int foodId, @RequestParam("receiverID") int userIdForReceiver, HttpServletRequest httpServletRequest, HttpServletResponse response) throws IOException {
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
 
         Optional<Food> foodIterable = service.findById(foodId);
 
         if (foodIterable.isPresent()) {
 
-            service.updateReceiverId(userIdForReceiver,foodIterable.get().getId());
+            service.updateReceiverId(userIdForReceiver, foodIterable.get().getId());
             Optional<RequestFood> requestFoodOptional = requestFoodRepository.findFoodByFoodId(foodIterable.get().getId());
             if (requestFoodOptional.isPresent()) {
                 requestFoodRepository.deleteById(requestFoodOptional.get().getId());
@@ -703,7 +693,7 @@ public class FoodListController {
                     "\n" +
                     "</nav>\n" +
                     "<div class=\"w3-container w3-center w3-animate-top\">\n" +
-                    "    <h1>Please wait while request this food for you</h1>\n" +
+                    "    <h1>please wait while system process this approval request</h1>\n" +
                     "</div>\n" +
                     "<center><div class=\"loader\"></div></center>\n" +
                     "\n" +
@@ -730,8 +720,6 @@ public class FoodListController {
 
         }
         response.getWriter().write(htmlBuilder.toString());
-
-
     }
 
 }
