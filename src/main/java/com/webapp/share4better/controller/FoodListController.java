@@ -5,8 +5,8 @@ import com.webapp.share4better.model.Profile;
 import com.webapp.share4better.model.ReceiverFoodList;
 import com.webapp.share4better.model.RequestFood;
 import com.webapp.share4better.repository.IRequestFoodRepository;
-import com.webapp.share4better.repository.IUserRepository;
 import com.webapp.share4better.service.IFoodService;
+import com.webapp.share4better.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class FoodListController {
     @Autowired
     private IFoodService service;
     @Autowired
-    private IUserRepository userRepository;
+    private IProfileService profileService;
     @Autowired
     private IRequestFoodRepository requestFoodRepository;
 
@@ -61,7 +61,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
                 if (food.getReceiverID() != null) {
-                    Optional<Profile> profile = userRepository.findById(food.getContributorID());
+                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
                     if (profile.isPresent()) {
                         receiverOrContributorName = profile.get().getUser_name();
                     }
@@ -119,7 +119,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
 
-                Optional<Profile> profile = userRepository.findById(food.getContributorID());
+                Optional<Profile> profile = profileService.findUserById(food.getContributorID());
 
                 if (profile.isPresent()) {
                     receiverOrContributorName = profile.get().getUser_name();
@@ -394,7 +394,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverName = "Not yet received by anyone";
                 if (food.getReceiverID() != null) {
-                    Optional<Profile> profile = userRepository.findById(food.getReceiverID());
+                    Optional<Profile> profile = profileService.findUserById(food.getReceiverID());
                     if (profile.isPresent()) {
                         receiverName = profile.get().getUser_name();
                     }
@@ -440,7 +440,7 @@ public class FoodListController {
                 receiverFoodList.setReceiverID(food.getReceiverID());
                 String receiverOrContributorName = null;
                 if (food.getReceiverID() != null) {
-                    Optional<Profile> profile = userRepository.findById(food.getContributorID());
+                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
                     if (profile.isPresent()) {
                         receiverOrContributorName = profile.get().getUser_name();
                     }
@@ -592,7 +592,7 @@ public class FoodListController {
                     receiverFoodList.setQuality(food.getQuality());
 
 
-                    Optional<Profile> requester = userRepository.findById(requestFood.getReceiverID());
+                    Optional<Profile> requester = profileService.findUserById(requestFood.getReceiverID());
                     if (requester.isPresent()) {
                         receiverFoodList.setReceiveOrContributorName(requester.get().getUser_name());
                         receiverFoodList.setReceiverID(requestFood.getReceiverID());
