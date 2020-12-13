@@ -23,8 +23,8 @@ public class FoodService implements IFoodService {
     }
 
     @Override
-    public Iterable<Food> getAllAvailableFood() {
-        return repository.listAvailableFoods();
+    public Iterable<Food> getAllAvailableFood(Integer id) {
+        return repository.listAvailableFoods(id);
     }
 
     public Food addFood(Food food) {

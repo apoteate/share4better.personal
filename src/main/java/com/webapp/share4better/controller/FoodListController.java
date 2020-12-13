@@ -43,7 +43,7 @@ public class FoodListController {
 
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
         try {
-            Iterable<Food> foodIterable = service.getAllAvailableFood();
+            Iterable<Food> foodIterable = service.getAllAvailableFood(userID);
 
             List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class FoodListController {
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
 
         try {
-            Iterable<Food> foodIterable = service.getAllAvailableFood();
+            Iterable<Food> foodIterable = service.getAllAvailableFood(userID);
 
 
             List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
