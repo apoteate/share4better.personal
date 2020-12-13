@@ -39,7 +39,7 @@ public class FoodListController {
             produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public ResponseEntity<List<ReceiverFoodList>> getAllContributedFood(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ReceiverFoodList>> getAllAvailableFood(HttpServletRequest httpServletRequest) {
 
         int userID = (int) httpServletRequest.getSession().getAttribute("userID");
         try {
