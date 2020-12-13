@@ -2,7 +2,9 @@ package com.webapp.share4better.service;
 
 import com.webapp.share4better.model.Address;
 import com.webapp.share4better.model.Contact;
+import com.webapp.share4better.model.Food;
 import com.webapp.share4better.model.Profile;
+import com.webapp.share4better.repository.IFoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,14 @@ public class TestUtil {
     private IAddressService addressService;
     @Autowired
     private  IContactService contactService;
-
     @Autowired
     private IProfileService profileService;
+
+    @Autowired
+    private IFoodRepository repository;
+    //TODO: AMANDA
+    @Autowired
+    private IFoodService foodService;
 
     private Contact contact_1 = createContact(999999991,"123-456-7891","987-543-1234");
     private Contact contact_2 = createContact(999999992,"987654321","987654321");
@@ -25,6 +32,9 @@ public class TestUtil {
 
     private Profile profile_1 = createProfile(99999999,"FirstName LastName","test@test.com","123456");
 
+    //TODO: AMANDA
+    private Food food_1 = createFood(111111111, 9999, 8888, "bagels", "bread", "10", "fresh");
+    private Food food_2 = createFood(111111112, 9991, 8881, "squash", "vegetable", "5", "good");
 
     public void addAddressTestData(){
         addressService.updateAddressInfo(address_1);
@@ -47,6 +57,11 @@ public class TestUtil {
         contactService.removeContactInfo(contact_2);
     }
 
+    public void removeFoodListTestData(){
+        repository.delete(food_1);
+        repository.delete(food_2);
+    }
+
 
     public void addProfileTestData(){
         profileService.addUser(profile_1);
@@ -55,6 +70,15 @@ public class TestUtil {
     public void removeProfileTestData(){
         profileService.removeUser(99999999);
     }
+
+    //TODO: AMANDA
+    public void addFoodListTestData() {
+        foodService.addFood(food_1);
+        foodService.addFood(food_2);
+    }
+
+    //TODO:AMANDA, ask if we need to remove food like profile and address
+    //public void removeFoodTestListData() { foodService.removeFood(); }
 
     public Address createAddress(int id, String home_address, String home_city, String home_state, int home_zip, String home_country, String work_address, String work_city, String work_state, int work_zip, String work_country){
         Address address = new Address();
@@ -90,4 +114,19 @@ public class TestUtil {
         profile.setUser_password(password);
         return profile;
     }
+
+    //TODO: AMANDA
+    public Food createFood(int id, int contributorId, int receiverId,
+                           String name, String type, String quantity, String quality){
+        Food food = new Food();
+        food.setId(id);
+        food.setContributorID(contributorId);
+        food.setReceiverID(receiverId);
+        food.setName(name);
+        food.setType(type);
+        food.setQuantity(quantity);
+        food.setQuality(quality);
+        return food;
+    }
+
 }
