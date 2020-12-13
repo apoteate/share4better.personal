@@ -33,11 +33,39 @@ public class FoodListController {
             produces = { MimeTypeUtils.APPLICATION_JSON_VALUE },
             headers = "Accept=application/json"
     )
-    public ResponseEntity<Iterable<Food>> getAllContributedFood() {
+    public ResponseEntity<List<ReceiverFoodList>> getAllContributedFood() {
         try {
-            return new ResponseEntity<Iterable<Food>>(service.getAllAvailableFood(), HttpStatus.OK);
+            Iterable<Food> foodIterable = service.getAllAvailableFood();
+
+            List<ReceiverFoodList> receiverFoodArrayList = new ArrayList<>();
+
+            for (Food food : foodIterable) {
+
+                ReceiverFoodList receiverFoodList = new ReceiverFoodList();
+
+                receiverFoodList.setId(food.getId());
+                receiverFoodList.setContributorID(food.getContributorID());
+                receiverFoodList.setName(food.getName());
+                receiverFoodList.setQuality(food.getQuality());
+                receiverFoodList.setQuantity(food.getQuantity());
+                receiverFoodList.setType(food.getType());
+
+                receiverFoodList.setReceiverID(food.getReceiverID());
+                String receiverOrContributorName = null;
+                if (food.getReceiverID() != null) {
+                    Optional<Profile> profile = profileService.findUserById(food.getContributorID());
+                    if (profile.isPresent()) {
+                        receiverOrContributorName = profile.get().getUser_name();
+                    }
+                }
+                receiverFoodList.setReceiveOrContributorName(receiverOrContributorName);
+
+                receiverFoodArrayList.add(receiverFoodList);
+            }
+
+            return new ResponseEntity<>(receiverFoodArrayList, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<Iterable<Food>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

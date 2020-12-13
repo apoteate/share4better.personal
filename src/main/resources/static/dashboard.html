@@ -35,6 +35,12 @@
             <li class="list-group-item">{{item.type}} <span class="badge">Type</span></li>
             <li class="list-group-item">{{item.quantity}} <span class="badge">Quantity</span></li>
             <li class="list-group-item">{{item.quality}} <span class="badge">Quality</span></li>
+            <br>
+            <form action="/requestBooking" method="GET">
+                <input id="foodId" name="foodId" type="hidden" value={{item.id}}>
+                <input id="contributorId" name="contributorId" type="hidden" value={{item.contributorID}}>
+                <button type="submit">Request This Food</button>
+            </form>
         </ul>
     </div>
 
