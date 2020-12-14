@@ -122,23 +122,31 @@ public class FoodListControllerTest {
 
 
     }
-//
-//    @Test
-//    public void requestFoodBooking() throws IOException {
-//        HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
-//        HttpServletResponse mockResponse = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
-//
-//        when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
-//        foodListController.requestFoodBooking(111111111, mockRequest, mockResponse);
-//        Optional<RequestFood> retrieveRequestFromDb = requestFoodRepository.findById(9999);
-//        assertTrue("is Present in DB ", retrieveRequestFromDb.isPresent());
-//    }
-//
-//    @Test
-//    public void removeBooking () {
-//
-//    }
-//
+
+    @Test
+    public void requestFoodBooking() throws IOException {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
+
+        when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
+        Iterable<Food> foodIterable = foodService.getAllAvailableFood(9999);
+
+        for (Food food:foodIterable){
+            if (food.getContributorID().equals(9991)){
+                foodListController.requestFoodBooking(food.getId(),mockRequest,mockResponse);
+                List<ReceiverFoodList> foodList = foodListController.getMyPendingFoods(mockRequest).getBody();
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), 111111112, foodList.get(1).getId());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), 9991, foodList.get(1).getContributorID());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), 8881, foodList.get(1).getReceiverID());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), "squash", foodList.get(1).getName());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), "vegetable", foodList.get(1).getType());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), "5", foodList.get(1).getQuantity());
+                assertEquals("Second Food Item : " + foodList.get(1).getName(), "good", foodList.get(1).getQuality());
+            }
+        }
+    }
+
+
 //    @Test
 //    public void getAllReceivedFood () {
 //        HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
