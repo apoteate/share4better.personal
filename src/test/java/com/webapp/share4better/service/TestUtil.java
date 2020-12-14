@@ -30,8 +30,8 @@ public class TestUtil {
 
     private Profile profile_1 = createProfile(99999999,"FirstName LastName","test@test.com","123456");
 
-    private Food food_1 = createFood(111111111, 9999, 8888, "bagels", "bread", "10", "fresh");
-    private Food food_2 = createFood(111111112, 9991, 8881, "squash", "vegetable", "5", "good");
+    private Food food_1 = createFood( 9999, 8888, "bagels", "bread", "10", "fresh");
+    private Food food_2 = createFood( 9991, 8881, "squash", "vegetable", "5", "good");
 
     public void addAddressTestData(){
         addressService.updateAddressInfo(address_1);
@@ -68,8 +68,16 @@ public class TestUtil {
     }
 
     public void removeFoodListTestData(){
-        repository.delete(food_1);
-        repository.delete(food_2);
+        Iterable<Food> iterable = foodService.getAllContributedFood(food_1.getContributorID());
+        for (Food food : iterable){
+            repository.deleteById(food.getId());
+        }
+
+        Iterable<Food> iterable2 = foodService.getAllContributedFood(food_2.getContributorID());
+        for (Food food : iterable2){
+            repository.deleteById(food.getId());
+        }
+
     }
 
 
@@ -107,10 +115,9 @@ public class TestUtil {
         return profile;
     }
 
-    public Food createFood(int id, int contributorId, int receiverId,
+    public Food createFood(int contributorId, int receiverId,
                            String name, String type, String quantity, String quality){
         Food food = new Food();
-        food.setId(id);
         food.setContributorID(contributorId);
         food.setReceiverID(receiverId);
         food.setName(name);
