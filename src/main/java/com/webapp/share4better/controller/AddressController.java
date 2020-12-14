@@ -1,7 +1,6 @@
 package com.webapp.share4better.controller;
 
 import com.webapp.share4better.model.Address;
-import com.webapp.share4better.model.Contact;
 import com.webapp.share4better.service.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

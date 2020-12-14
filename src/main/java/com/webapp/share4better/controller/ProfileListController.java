@@ -96,7 +96,7 @@ public class ProfileListController {
             produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
             headers = "Accept=application/json"
     )
-    public String updateContactInfo(@RequestParam("fullName") String fullName, @RequestParam("userEmail") String userEmail, @RequestParam("userPass") String userPass, HttpServletRequest httpServletRequest) {
+    public String updateProfileInfo(@RequestParam("fullName") String fullName, @RequestParam("userEmail") String userEmail, @RequestParam("userPass") String userPass, HttpServletRequest httpServletRequest) {
 
         Integer userID = (Integer) httpServletRequest.getSession().getAttribute("userID");
         if (userID == null) {
