@@ -5,8 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "request_food")
 public class RequestFood {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
