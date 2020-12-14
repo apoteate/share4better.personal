@@ -44,6 +44,9 @@ public class FoodListControllerTest {
     private IFoodRepository foodRepository;
 
     @Autowired
+    private IRequestFoodRepository requestFoodRepository;
+
+    @Autowired
     private TestUtil testUtil;
 
     @BeforeEach
@@ -70,6 +73,7 @@ public class FoodListControllerTest {
         Iterable<Food> retrieveFoodFromDb = foodService.getAllContributedFood(9999992);
 
         for (Food food : retrieveFoodFromDb) {
+
             assertEquals("Food Name: ", "cookies", food.getName());
             assertEquals("Food Type: ", "snack", food.getType());
             assertEquals("Food Quality: ", "fresh", food.getQuality());
@@ -78,19 +82,22 @@ public class FoodListControllerTest {
         }
     }
 
-
     @Test
-    public void getAllContributedFood() {
+    public void getAllContributedFoods() {
 
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
         List<ReceiverFoodList> foodList = foodListController.getAllContributedFoods(mockRequest).getBody();
-        assertEquals("Food Item : " + foodList.get(0).getName(), 9999, foodList.get(0).getContributorID());
-        assertEquals("Food Item : " + foodList.get(0).getName(), 8888, foodList.get(0).getReceiverID());
-        assertEquals("Food Item : " + foodList.get(0).getName(), "bagels", foodList.get(0).getName());
-        assertEquals("Food Item : " + foodList.get(0).getName(), "bread", foodList.get(0).getType());
-        assertEquals("Food Item : " + foodList.get(0).getName(), "10", foodList.get(0).getQuantity());
-        assertEquals("Food Item : " + foodList.get(0).getName(), "fresh", foodList.get(0).getQuality());
+
+        assertEquals("", 9999, foodList.get(0).getContributorID());
+        assertEquals("", 8888, foodList.get(0).getReceiverID());
+        assertEquals("", "bagels", foodList.get(0).getName());
+        assertEquals("", "bread", foodList.get(0).getType());
+        assertEquals("", "10", foodList.get(0).getQuantity());
+        assertEquals("", "fresh", foodList.get(0).getQuality());
+
+
     }
 
     @Test
@@ -105,13 +112,37 @@ public class FoodListControllerTest {
             if (food.getContributorID().equals(9991)){
                 foodListController.requestFoodBooking(food.getId(),mockRequest,mockResponse);
                 List<ReceiverFoodList> foodList = foodListController.getMyPendingFoods(mockRequest).getBody();
-                assertEquals("Food Item : " + foodList.get(1).getName(), 111111112, foodList.get(1).getId());
-                assertEquals("Food Item : " + foodList.get(1).getName(), 9991, foodList.get(1).getContributorID());
-                assertEquals("Food Item : " + foodList.get(1).getName(), 8881, foodList.get(1).getReceiverID());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "squash", foodList.get(1).getName());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "vegetable", foodList.get(1).getType());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "5", foodList.get(1).getQuantity());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "good", foodList.get(1).getQuality());
+                assertEquals("", 9991, foodList.get(1).getContributorID());
+                assertEquals("", 8881, foodList.get(1).getReceiverID());
+                assertEquals("", "squash", foodList.get(1).getName());
+                assertEquals("", "vegetable", foodList.get(1).getType());
+                assertEquals("", "5", foodList.get(1).getQuantity());
+                assertEquals("", "good", foodList.get(1).getQuality());
+
+            }
+        }
+
+
+    }
+
+    @Test
+    public void getAllReceivedFood () throws IOException {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
+
+        when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
+        Iterable<Food> foodIterable = foodService.getAllReceivedFood(9999);
+
+        for (Food food:foodIterable){
+            if (food.getContributorID().equals(9991)){
+                foodListController.requestFoodBooking(food.getId(),mockRequest,mockResponse);
+                List<ReceiverFoodList> foodList = foodListController.getAllReceivedFood(mockRequest).getBody();
+                assertEquals("", 9991, foodList.get(1).getContributorID());
+                assertEquals("", 8881, foodList.get(1).getReceiverID());
+                assertEquals("", "squash", foodList.get(1).getName());
+                assertEquals("", "vegetable", foodList.get(1).getType());
+                assertEquals("", "5", foodList.get(1).getQuantity());
+                assertEquals("", "good", foodList.get(1).getQuality());
 
             }
         }
@@ -129,13 +160,12 @@ public class FoodListControllerTest {
             if (food.getContributorID().equals(9991)){
                 foodListController.requestFoodBooking(food.getId(),mockRequest,mockResponse);
                 List<ReceiverFoodList> foodList = foodListController.getMyPendingFoods(mockRequest).getBody();
-                assertEquals("Food Item : " + foodList.get(1).getName(), 111111112, foodList.get(1).getId());
-                assertEquals("Food Item : " + foodList.get(1).getName(), 9991, foodList.get(1).getContributorID());
-                assertEquals("Food Item : " + foodList.get(1).getName(), 8881, foodList.get(1).getReceiverID());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "squash", foodList.get(1).getName());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "vegetable", foodList.get(1).getType());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "5", foodList.get(1).getQuantity());
-                assertEquals("Food Item : " + foodList.get(1).getName(), "good", foodList.get(1).getQuality());
+                assertEquals("", 9991, foodList.get(1).getContributorID());
+                assertEquals("", 8881, foodList.get(1).getReceiverID());
+                assertEquals("", "squash", foodList.get(1).getName());
+                assertEquals("", "vegetable", foodList.get(1).getType());
+                assertEquals("", "5", foodList.get(1).getQuantity());
+                assertEquals("", "good", foodList.get(1).getQuality());
             }
         }
     }
