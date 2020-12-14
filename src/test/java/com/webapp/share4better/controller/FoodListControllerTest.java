@@ -2,6 +2,7 @@ package com.webapp.share4better.controller;
 
 import com.webapp.share4better.model.*;
 import com.webapp.share4better.repository.IFoodRepository;
+import com.webapp.share4better.repository.IRequestFoodRepository;
 import com.webapp.share4better.service.IFoodService;
 import com.webapp.share4better.service.TestUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -40,6 +41,9 @@ public class FoodListControllerTest {
     private IFoodRepository foodRepository;
 
     @Autowired
+    private IRequestFoodRepository requestFoodRepository;
+
+    @Autowired
     private TestUtil testUtil;
 
     @BeforeEach
@@ -62,12 +66,13 @@ public class FoodListControllerTest {
 
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(9992);
         foodListController.contributeFood("cookies", "snack", "fresh", "20", mockRequest,  mockResponse);
-        Optional<Food> retriveFoodFromDb = foodRepository.findById(9992);
-        assertTrue("is Present in DB ",retriveFoodFromDb.isPresent());
-        assertEquals("Food Name: " , "cookies", retriveFoodFromDb.get().getName());
-
-        //TODO:finish assertEquals for contributed food
-        foodRepository.delete(retriveFoodFromDb.get());
+        Optional<Food> retrieveFoodFromDb = foodRepository.findById(9992);
+        assertTrue("is Present in DB ", retrieveFoodFromDb.isPresent());
+        assertEquals("Food Name: " , "cookies", retrieveFoodFromDb.get().getName());
+        assertEquals("Food Type: " , "snack", retrieveFoodFromDb.get().getType());
+        assertEquals("Food Quality: " , "fresh", retrieveFoodFromDb.get().getQuality());
+        assertEquals("Food Quantity: " , "20", retrieveFoodFromDb.get().getQuantity());
+        foodRepository.delete(retrieveFoodFromDb.get());
     }
 
     @Test
@@ -124,8 +129,14 @@ public class FoodListControllerTest {
     }
 
     @Test
-    public void requestFoodBooking() {
+    public void requestFoodBooking() throws IOException {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class, RETURNS_DEEP_STUBS);
 
+        when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
+        foodListController.requestFoodBooking(111111111, mockRequest, mockResponse);
+        Optional<RequestFood> retrieveRequestFromDb = requestFoodRepository.findById(9999);
+        assertTrue("is Present in DB ", retrieveRequestFromDb.isPresent());
     }
 
     @Test
