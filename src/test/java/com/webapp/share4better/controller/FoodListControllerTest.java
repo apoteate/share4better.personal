@@ -76,7 +76,7 @@ public class FoodListControllerTest {
         HttpServletRequest mockRequest = mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
 
         when(mockRequest.getSession().getAttribute("userID")).thenReturn(9999);
-        List<ReceiverFoodList> foodList = foodListController.getAllContributedFood(mockRequest).getBody();
+        List<ReceiverFoodList> foodList = foodListController.getAllContributedFoods(mockRequest).getBody();
 
         assertEquals("First Food Item : " + foodList.get(0).getName(), 111111111, foodList.get(0).getId());
         assertEquals("First Food Item : " + foodList.get(0).getName(), 9999, foodList.get(0).getContributorID());
