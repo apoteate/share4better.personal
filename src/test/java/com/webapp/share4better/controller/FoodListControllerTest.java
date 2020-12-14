@@ -94,14 +94,6 @@ public class FoodListControllerTest {
         assertEquals("First Food Item : " + foodList.get(0).getName(), "10", foodList.get(0).getQuantity());
         assertEquals("First Food Item : " + foodList.get(0).getName(), "fresh", foodList.get(0).getQuality());
 
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), 111111112, foodList.get(1).getId());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), 9991, foodList.get(1).getContributorID());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), 8881, foodList.get(1).getReceiverID());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), "squash", foodList.get(1).getName());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), "vegetable", foodList.get(1).getType());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), "5", foodList.get(1).getQuantity());
-        assertEquals("Second Food Item : " + foodList.get(1).getName(), "good", foodList.get(1).getQuality());
-
 
     }
 //
