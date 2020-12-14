@@ -320,8 +320,6 @@ public class FoodListController {
             htmlBuilder.append(getHtml(savedFood, "    <h1>Please wait while we are adding your contribution as below</h1>\n", "            window.location.href = '/home.html#sucsess';\n"));
             response.getWriter().write(htmlBuilder.toString());
 
-        } else {
-
         }
     }
 
