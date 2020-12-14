@@ -41,7 +41,6 @@ public class IProfileServiceTest {
         assertTrue(getProfile.isPresent());
         assertEquals("test@test.com", getProfile.get().getUser_email());
         assertEquals("FirstName LastName", getProfile.get().getUser_name());
-        assertEquals(99999999, getProfile.get().getUser_id());
         assertEquals("123456", getProfile.get().getUser_password());
     }
 

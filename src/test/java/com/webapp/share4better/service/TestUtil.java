@@ -6,6 +6,8 @@ import com.webapp.share4better.repository.IRequestFoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TestUtil {
 
@@ -59,7 +61,11 @@ public class TestUtil {
     }
 
     public void removeProfileTestData(){
-        profileService.removeUser(99999999);
+        Optional<Profile> profile = profileService.getUserProfile("test@test.com");
+        if (profile.isPresent()) {
+            profileService.removeUser(profile.get().getUser_id());
+        }
+
     }
 
     public void addFoodListTestData() {

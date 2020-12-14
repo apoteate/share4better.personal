@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNull;
@@ -91,7 +93,9 @@ public class ProfileListControllerTest {
     @Test
     void getUser() {
         HttpServletRequest httpServletRequest = Mockito.mock(HttpServletRequest.class, RETURNS_DEEP_STUBS);
-        when(httpServletRequest.getSession().getAttribute("userID")).thenReturn(99999999);
+        Optional<Profile> profile1 = service.getUserProfile("test@test.com");
+
+        when(httpServletRequest.getSession().getAttribute("userID")).thenReturn(profile1.get().getUser_id());
         Profile profile = profileListController.getUser(httpServletRequest).getBody();
         assertEquals("UserName", "FirstName LastName", profile.getUser_name());
         assertEquals("UserEmail", "test@test.com", profile.getUser_email());
