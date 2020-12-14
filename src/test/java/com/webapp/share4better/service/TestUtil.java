@@ -1,10 +1,8 @@
 package com.webapp.share4better.service;
 
-import com.webapp.share4better.model.Address;
-import com.webapp.share4better.model.Contact;
-import com.webapp.share4better.model.Food;
-import com.webapp.share4better.model.Profile;
+import com.webapp.share4better.model.*;
 import com.webapp.share4better.repository.IFoodRepository;
+import com.webapp.share4better.repository.IRequestFoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,10 @@ public class TestUtil {
     private IProfileService profileService;
     @Autowired
     private IFoodRepository repository;
-   @Autowired
+    @Autowired
     private IFoodService foodService;
+    @Autowired
+    private IRequestFoodRepository requestFoodRepository;
 
     private Contact contact_1 = createContact(999999991,"123-456-7891","987-543-1234");
     private Contact contact_2 = createContact(999999992,"987654321","987654321");
@@ -79,6 +79,16 @@ public class TestUtil {
         }
 
     }
+
+    public void removeBooking(){
+        Iterable<RequestFood> iterable = requestFoodRepository.findFoodByFoodId(111111111);
+        for (RequestFood requestFood : iterable) {
+            requestFoodRepository.deleteById(requestFood.getId());
+        }
+
+    }
+
+
 
 
     public Address createAddress(int id, String home_address, String home_city, String home_state, int home_zip, String home_country, String work_address, String work_city, String work_state, int work_zip, String work_country){
